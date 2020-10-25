@@ -1,5 +1,7 @@
 # dotfiles
 
+Based on https://www.freecodecamp.org/news/a-guide-to-modern-web-development-with-neo-vim-333f7efbf8e2/
+
 # SHELL
 
 ## Install powerline fonts (https://github.com/powerline/fonts)
@@ -77,12 +79,26 @@ git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 sudo apt update neovim
 ```
 
-## Intellisense in neovim
+## Intellisense in neovim (https://github.com/neoclide/coc.nvim/wiki/Using-coc-extensions)
 ```
-https://github.com/neoclide/coc.nvim/wiki/Using-coc-extensions
+:CocInstall coc-json coc-tsserver coc-python coc-yaml coc-go coc-css coc-html coc-jedi
 ```
 
 ## Move space config
 ```
 cp ~/.config/nvim/space.vim ~/.config/nvim/plugged/vim-airline-themes/autoload/airline/themes/space.vim
 ```
+
+
+# TIPS
+
+## Neovim
+
+| Command  |     Action                                                                   |
+|----------|:----------------------------------------------------------------------------:|
+| `;`      |  Brings up all opened buffers. Then `Ctrl-o` to be like in normal mode       |
+| `,t`     |  Fuzzy find files in current folder. Then `Ctrl-o` to be like in normal mode |
+| `,g`     |  Search the entire project for a given term. Then `Ctrl-o` to be like in normal mode |
+| `,j`     |  Search the term under cursor. Then `Ctrl-o` to be like in normal mode |
+| `,nn`    |  brings up NerdTree                                                          |
+    

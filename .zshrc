@@ -2,7 +2,7 @@
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH="/home/gcalmettes/.oh-my-zsh"
+export ZSH="${HOME}/.oh-my-zsh"
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -208,7 +208,7 @@ export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || pr
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
 
 # Pyenv
-export PATH="/home/gcalmettes/.pyenv/bin:$PATH"
+export PATH="${HOME}/.pyenv/bin:$PATH"
 eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
 
@@ -221,19 +221,19 @@ export GOPATH=$HOME/go_projects
 export PATH=$GOPATH/bin:$GOROOT/bin:$PATH
 
 # for istio
-export PATH=/home/gcalmettes/bin/istio-1.6.2/bin:$PATH
+export PATH=${HOME}/bin/istio-1.6.2/bin:$PATH
 
 # Make ASDF script available
-. /home/gcalmettes/.asdf/asdf.sh
+. $HOME/.asdf/asdf.sh
 
 # Kubernetes
 export KUBECONFIG=${KUBECONFIG:+$KUBECONFIG:}$HOME/.kube/config:$HOME/.kube/config-k3s-frl66
 
 # The next line updates PATH for the Google Cloud SDK.
-if [ -f '/home/gcalmettes/google-cloud-sdk/path.zsh.inc' ]; then . '/home/gcalmettes/google-cloud-sdk/path.zsh.inc'; fi
+if [ -f '${HOME}/google-cloud-sdk/path.zsh.inc' ]; then . '${HOME}/google-cloud-sdk/path.zsh.inc'; fi
 
 # The next line enables shell command completion for gcloud.
-if [ -f '/home/gcalmettes/google-cloud-sdk/completion.zsh.inc' ]; then . '/home/gcalmettes/google-cloud-sdk/completion.zsh.inc'; fi
+if [ -f '${HOME}/google-cloud-sdk/completion.zsh.inc' ]; then . '${HOME}/google-cloud-sdk/completion.zsh.inc'; fi
 
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"
