@@ -24,6 +24,9 @@ call plug#begin('~/.config/nvim/plugged')
 " Trailing whitespace highlighting & automatic fixing
 Plug 'ntpeters/vim-better-whitespace'
 
+" Handles surrounding parenthesis
+Plug 'tpope/vim-fugitive'
+
 " auto-close plugin
 Plug 'rstacruz/vim-closer'
 
