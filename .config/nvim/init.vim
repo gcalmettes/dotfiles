@@ -53,6 +53,8 @@ set shortmess+=c
 " ===                           PLUGIN SETUP                               === "
 " ============================================================================ "
 
+let g:python3_host_prog='/home/gcalmettes/.pyenv/versions/neovim/bin/python'
+
 " Wrap in try/catch to avoid errors on initial install before plugin is available
 try
 " === Denite setup ==="
