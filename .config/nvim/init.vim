@@ -319,6 +319,12 @@ endtry
 " ===                             KEY MAPPINGS                             === "
 " ============================================================================ "
 
+" Clear highlighting on escape in normal mode.
+" The second line is needed for mapping to the escape key since Vim internally uses escape to represent special keys.
+nnoremap <esc> :noh<return><esc>
+nnoremap <esc>^[ <esc>^[
+
+
 " === Denite shorcuts === "
 "   ;         - Browser currently open buffers
 "   <leader>t - Browse list of files in current directory
