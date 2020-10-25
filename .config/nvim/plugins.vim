@@ -25,7 +25,10 @@ call plug#begin('~/.config/nvim/plugged')
 Plug 'ntpeters/vim-better-whitespace'
 
 " Handles surrounding parenthesis
-Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-surround'
+
+" Easily comment/un-comment code
+Plug 'tpope/vim-commentary'
 
 " auto-close plugin
 Plug 'rstacruz/vim-closer'
