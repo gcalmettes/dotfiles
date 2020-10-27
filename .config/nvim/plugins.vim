@@ -21,6 +21,7 @@ endif
 call plug#begin('~/.config/nvim/plugged')
 
 " === Editing Plugins === "
+
 " Trailing whitespace highlighting & automatic fixing
 Plug 'ntpeters/vim-better-whitespace'
 
@@ -50,11 +51,27 @@ Plug 'Shougo/neosnippet-snippets'
 Plug 'Shougo/echodoc.vim'
 
 " === Git Plugins === "
+
 " Enable git changes to be shown in sign column
 Plug 'mhinz/vim-signify'
 Plug 'tpope/vim-fugitive'
 
+" === Python Plugins ===
+
+" Pyenv activation
+Plug 'lambdalisue/vim-pyenv'
+
+" Better python syntax highlighting
+Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'}
+
+" Better python indentation
+Plug 'Vimjas/vim-python-pep8-indent'
+
+" Closing parenthesis as you type
+Plug 'jiangmiao/auto-pairs'
+
 " === Javascript Plugins === "
+
 " Typescript syntax highlighting
 Plug 'HerringtonDarkholme/yats.vim'
 
@@ -76,6 +93,7 @@ Plug 'othree/javascript-libraries-syntax.vim'
 Plug 'othree/yajs.vim'
 
 " === UI === "
+
 " File explorer
 Plug 'scrooloose/nerdtree'
 

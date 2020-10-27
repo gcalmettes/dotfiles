@@ -53,7 +53,14 @@ set shortmess+=c
 " ===                           PLUGIN SETUP                               === "
 " ============================================================================ "
 
+" Completion triggers may block Semshi from highlighting instantly
+" let g:deoplete#auto_complete_delay = 100
+
+let g:python_host_prog='/home/gcalmettes/.pyenv/versions/neovimPy2/bin/python'
 let g:python3_host_prog='/home/gcalmettes/.pyenv/versions/neovim/bin/python'
+
+" Enable Semshi automatically for those file types
+let g:semshi#filetypes=['python', '*.py']
 
 " Wrap in try/catch to avoid errors on initial install before plugin is available
 try
@@ -324,7 +331,6 @@ endtry
 nnoremap <esc> :noh<return><esc>
 nnoremap <esc>^[ <esc>^[
 
-
 " === Denite shorcuts === "
 "   ;         - Browser currently open buffers
 "   <leader>t - Browse list of files in current directory
@@ -419,6 +425,19 @@ nmap <silent> <leader>dd <Plug>(coc-definition)
 nmap <silent> <leader>dr <Plug>(coc-references)
 nmap <silent> <leader>dj <Plug>(coc-implementation)
 nnoremap <silent> <leader>ds :<C-u>CocList -I -N --top symbols<CR>
+
+" Display the documentation with K
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
+
+
+
 
 " === vim-better-whitespace === "
 "   <leader>y - Automatically remove trailing whitespace
