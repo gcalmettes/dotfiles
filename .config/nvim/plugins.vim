@@ -70,6 +70,10 @@ Plug 'Vimjas/vim-python-pep8-indent'
 " Closing parenthesis as you type
 Plug 'jiangmiao/auto-pairs'
 
+"=== Go Plugins ==="   
+
+Plug 'fatih/vim-go'  
+
 " === Javascript Plugins === "
 
 " Typescript syntax highlighting
