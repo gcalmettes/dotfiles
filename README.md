@@ -89,6 +89,11 @@ sudo apt update neovim
 cp ~/.config/nvim/space.vim ~/.config/nvim/plugged/vim-airline-themes/autoload/airline/themes/space.vim
 ```
 
+## Post install
+```
+vim +PlugInstall
+```
+
 
 # TIPS
 
@@ -99,6 +104,8 @@ cp ~/.config/nvim/space.vim ~/.config/nvim/plugged/vim-airline-themes/autoload/a
 | `;`      |  Brings up all opened buffers. Then `Ctrl-o` to be like in normal mode       |
 | `,t`     |  Fuzzy find files in current folder. Then `Ctrl-o` to be like in normal mode |
 | `,g`     |  Search the entire project for a given term. Then `Ctrl-o` to be like in normal mode |
-| `,j`     |  Search the term under cursor. Then `Ctrl-o` to be like in normal mode |
+| `,j`     |  Search the term under cursor. Then `Ctrl-o` to be like in normal mode       |
 | `,nn`    |  brings up NerdTree                                                          |
-    
+|  `gd`    |  Go To definition                                                            |
+| `ctrl-o` |  Go back from definition                                                     |
+
