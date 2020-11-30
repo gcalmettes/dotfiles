@@ -218,7 +218,8 @@ export PATH="$HOME/.poetry/bin:$PATH"
 # Go setup
 export GOROOT=/usr/local/go
 export GOPATH=$HOME/go_projects
-export PATH=$GOPATH/bin:$GOROOT/bin:$PATH
+export GOBIN=$GOPATH/bin
+export PATH=$GOBIN:$GOROOT/bin:$PATH
 
 # for istio
 export PATH=${HOME}/bin/istio-1.6.2/bin:$PATH
