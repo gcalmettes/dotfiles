@@ -204,6 +204,9 @@ nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
 " This is disabled to allow coc.vim to do the gd resolution.
 let g:go_def_mapping_enabled = 0
 
+" make vim-go also run :GoImports on save
+let g:go_fmt_command = "goimports"
+
 " === NeoSnippet === "
 " Map <C-k> as shortcut to activate snippet if available
 imap <C-k> <Plug>(neosnippet_expand_or_jump)
