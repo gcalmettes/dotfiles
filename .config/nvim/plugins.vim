@@ -96,6 +96,9 @@ Plug 'othree/javascript-libraries-syntax.vim'
 " Improved syntax highlighting and indentation
 Plug 'othree/yajs.vim'
 
+" Helm highlighting (yaml + go template)
+Plug 'towolf/vim-helm'
+
 " === UI === "
 
 " File explorer
