@@ -64,6 +64,22 @@ rvm --default use 2.7.0
 gem install colorls
 ```
 
+## Install regolith-desktop
+```
+sudo apt install regolith-desktop-standard
+```
+
+### Build custom [barista status bar](https://barista.run/)
+```
+go get 
+go build my-barista-status-bar.go
+mv my-barista-status-bar ~/bin/my-barista-status-bar
+# make it an executable
+chmod +x ~/bin/my-barista-status-bar
+```
+
+NOTE: this binary is used in the regolith i3 config in place of i3xrocks
+
 ## Install tmux
 ```
 sudo apt install tmux
