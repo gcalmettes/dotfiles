@@ -59,6 +59,8 @@ import (
 	"barista.run/pango/icons/mdi"
 	"barista.run/pango/icons/typicons"
 
+	"github.com/gcalmettes/baristafication"
+
 	colorful "github.com/lucasb-eyer/go-colorful"
 	"github.com/martinlindhe/unit"
 	keyring "github.com/zalando/go-keyring"
@@ -397,6 +399,7 @@ func main() {
 			pango.Textf("%d%%", i.RemainingPct()),
 			spacer,
 			pango.Textf("(%d:%02d)", int(rem.Hours()), int(rem.Minutes())%60),
+			// pango.Textf("(%d:%02d)", int(rem.Hours()), int(rem.Minutes())%60),
 		).OnClick(click.Left(func() {
 			mainModalController.Toggle("battery")
 		})))
@@ -601,26 +604,38 @@ func main() {
 
 	mediaSummary, mediaDetail := split.New(media.Auto().Output(mediaFormatFunc), 1)
 
-	// ghNotify := github.New("%%GITHUB_CLIENT_ID%%", "%%GITHUB_CLIENT_SECRET%%").
-	// 	Output(func(n github.Notifications) bar.Output {
-	// 		if n.Total() == 0 {
-	// 			return nil
-	// 		}
-	// 		out := outputs.Group(
-	// 			pango.Icon("fab-github").
-	// 				Concat(spacer).
-	// 				ConcatTextf("%d", n.Total()))
-	// 		mentions := n["mention"] + n["team_mention"]
-	// 		if mentions > 0 {
-	// 			out.Append(spacer)
-	// 			out.Append(outputs.Pango(
-	// 				pango.Icon("mdi-bell").
-	// 					ConcatTextf("%d", mentions)).
-	// 				Urgent(true))
-	// 		}
-	// 		return out.Glue().OnClick(
-	// 			click.RunLeft("xdg-open", "https://github.com/notifications"))
-	// 	})
+	roficationNotify := baristafication.New().
+		Output(func(n baristafication.Notifications) bar.Output {
+			count := n.Total()
+			iconName := "far-bell"
+			switch {
+			case count == 0:
+				return nil
+			case count > 100:
+				iconName = "fa-bell"
+			}
+			if n.Total() == 0 {
+			}
+			out := outputs.Group(
+				pango.Icon(iconName).
+					Concat(spacer).
+					ConcatTextf("%d", n.Total()))
+			// mentions := n["mention"] + n["team_mention"]
+			// if mentions > 0 {
+			// 	out.Append(spacer)
+			// 	out.Append(outputs.Pango(
+			// 		pango.Icon("mdi-bell").
+			// 			ConcatTextf("%d", mentions)).
+			// 		Urgent(true))
+			// }
+
+			switch {
+			case count > 100:
+				out.Color(colors.Scheme("bad"))
+			}
+			return out.Glue().OnClick(
+				click.RunLeft("/usr/bin/rofication-gui"))
+		})
 
 	mainModal := modal.New()
 	sysMode := mainModal.Mode("sysinfo").
@@ -641,6 +656,11 @@ func main() {
 		SetOutput(makeIconOutput("mdi-music-box")).
 		Add(vol, mediaSummary).
 		Detail(mediaDetail)
+
+	mainModal.Mode("notifications").
+		SetOutput(nil).
+		Add(roficationNotify)
+
 	// mainModal.Mode("notifications").
 	// 	SetOutput(nil).
 	// 	Add(ghNotify)
