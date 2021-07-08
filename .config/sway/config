@@ -1,0 +1,401 @@
+# Default config for sway
+#
+# Copy this to ~/.config/sway/config and edit it to your liking.
+#
+# Read `man 5 sway` for a complete reference.
+
+####################################################################
+# Variables
+####################################################################
+
+# Meta Key - Alt key is Mod1, and Windows key is Mod4
+set $mod Mod4
+set $alt Mod1
+
+# Home row direction keys, like vim
+set $left h
+set $down j
+set $up k
+set $right l
+
+# Terminal emulator
+set $term alacritty
+
+# Application launcher
+# Note: pass the final command to swaymsg so that the resulting window can be opened
+# on the original workspace that the command was run on.
+set $menu ulauncher --no-window-shadow | xargs swaymsg exec --
+#set $menu wofi -c ~/.config/wofi/config
+#set $menu dmenu_path | dmenu | xargs swaymsg exec --
+
+####################################################################
+# Configuration
+####################################################################
+
+input * repeat_delay 300
+input * repeat_rate 50
+input * xkb_layout fr
+
+output * bg ~/Pictures/colorful-triangles-background.jpg fill
+
+# Select monitor
+focus left
+
+# Drag floating windows by holding down $mod and left mouse button.
+floating_modifier $mod normal
+
+
+###############################################################################
+# Launcher dialogs
+###############################################################################
+
+# Launch // Terminal // <> Enter ##
+bindsym $mod+Return exec $term
+
+## Launch // Browser // <><Shift> Enter ##
+bindsym $mod+Shift+Return exec gtk-launch $(xdg-settings get default-web-browser)
+
+## Launch // Application // <> Space ##
+bindsym $mod+Space exec $menu
+
+## Launch // Application // <><Shift> w ##
+bindsym $mod+Shift+w exec ~/.config/scripts/search-and-focus-on-window
+
+## Kill // Focused window // <><Shift> q ##
+bindsym $mod+Shift+q kill
+
+## Kill // Exit sway (logs you out of your Wayland session) // <><Shift> e ##
+bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -b 'Yes, exit sway' 'swaymsg exit'
+
+
+
+###############################################################################
+# Workspace Names
+# These are the labels which define each sway workspace.
+###############################################################################
+
+# Note: workspaces can have any name you want, not just numbers.
+# We just use numbers as the default.
+
+set $ws1   "1"
+set $ws2   "2"
+set $ws3   "3"
+set $ws4   "4"
+set $ws5   "5"
+set $ws6   "6"
+set $ws7   "7"
+set $ws8   "8"
+set $ws9   "9"
+set $ws10  "10"
+set $ws11  "11"
+set $ws12  "12"
+set $ws13  "13"
+set $ws14  "14"
+set $ws15  "15"
+set $ws16  "16"
+set $ws17  "17"
+set $ws18  "18"
+set $ws19  "19"
+
+###############################################################################
+# Workspace Keys
+# These are the keys which will be used while binding workspace switching
+###############################################################################
+
+# # QWERTY
+# set $ws1_key   1
+# set $ws2_key   2
+# set $ws3_key   3
+# set $ws4_key   4
+# set $ws5_key   5
+# set $ws6_key   6
+# set $ws7_key   7
+# set $ws8_key   8
+# set $ws9_key   9
+# set $ws10_key  0
+#
+# French AZERTY
+set $ws1_key   ampersand
+set $ws2_key   eacute
+set $ws3_key   quotedbl
+set $ws4_key   apostrophe
+set $ws5_key   parenleft
+set $ws6_key   minus
+set $ws7_key   egrave
+set $ws8_key   underscore
+set $ws9_key   ccedilla
+set $ws10_key  agrave
+
+###############################################################################
+# Workspace Keys
+# These are the keys which will be used while binding workspace switching
+###############################################################################
+
+## Navigate // Workspaces 1-10 // <> 0..9 ##
+bindsym $mod+$ws1_key workspace number $ws1
+bindsym $mod+$ws2_key workspace number $ws2
+bindsym $mod+$ws3_key workspace number $ws3
+bindsym $mod+$ws4_key workspace number $ws4
+bindsym $mod+$ws5_key workspace number $ws5
+bindsym $mod+$ws6_key workspace number $ws6
+bindsym $mod+$ws7_key workspace number $ws7
+bindsym $mod+$ws8_key workspace number $ws8
+bindsym $mod+$ws9_key workspace number $ws9
+bindsym $mod+$ws10_key workspace number $ws10
+
+## Navigate // Workspace 11 - 19 // <><Ctrl> 1..9 ##
+bindsym $mod+Ctrl+$ws1_key workspace number $ws11
+bindsym $mod+Ctrl+$ws2_key workspace number $ws12
+bindsym $mod+Ctrl+$ws3_key workspace number $ws13
+bindsym $mod+Ctrl+$ws4_key workspace number $ws14
+bindsym $mod+Ctrl+$ws5_key workspace number $ws15
+bindsym $mod+Ctrl+$ws6_key workspace number $ws16
+bindsym $mod+Ctrl+$ws7_key workspace number $ws17
+bindsym $mod+Ctrl+$ws8_key workspace number $ws18
+bindsym $mod+Ctrl+$ws9_key workspace number $ws19
+
+
+###############################################################################
+# Window and Workspace Navigation
+###############################################################################
+
+## Navigate // Relative Window // <> ↑ ↓ ← → ##
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+# or move your focus around
+bindsym $mod+$left focus left
+bindsym $mod+$down focus down
+bindsym $mod+$up focus up
+bindsym $mod+$right focus right
+
+# Switch to next/previous workspace on output
+bindsym $mod+Alt+Right workspace next_on_output
+bindsym $mod+Alt+Left workspace prev_on_output
+
+###############################################################################
+# Window and Workspace Configuration
+###############################################################################
+
+## Modify // Window Position // <><Shift> ↑ ↓ ← → ##
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+  # -- or move the focused window, but add Shift
+bindsym $mod+Shift+$left move left
+bindsym $mod+Shift+$down move down
+bindsym $mod+Shift+$up move up
+bindsym $mod+Shift+$right move right
+
+
+## Modify // Move Window to Workspace 1 - 10 // <><Shift> 0..9 ##
+bindsym $mod+Shift+$ws1_key move container to workspace number $ws1
+bindsym $mod+Shift+$ws2_key move container to workspace number $ws2
+bindsym $mod+Shift+$ws3_key move container to workspace number $ws3
+bindsym $mod+Shift+$ws4_key move container to workspace number $ws4
+bindsym $mod+Shift+$ws5_key move container to workspace number $ws5
+bindsym $mod+Shift+$ws6_key move container to workspace number $ws6
+bindsym $mod+Shift+$ws7_key move container to workspace number $ws7
+bindsym $mod+Shift+$ws8_key move container to workspace number $ws8
+bindsym $mod+Shift+$ws9_key move container to workspace number $ws9
+bindsym $mod+Shift+$ws10_key move container to workspace number $ws10
+
+## Modify // Move Window to Workspace 11 - 19// <><Ctrl><Shift> 1..9 ##
+bindsym $mod+Shift+Ctrl+$ws1_key move container to workspace number $ws11
+bindsym $mod+Shift+Ctrl+$ws2_key move container to workspace number $ws12
+bindsym $mod+Shift+Ctrl+$ws3_key move container to workspace number $ws13
+bindsym $mod+Shift+Ctrl+$ws4_key move container to workspace number $ws14
+bindsym $mod+Shift+Ctrl+$ws5_key move container to workspace number $ws15
+bindsym $mod+Shift+Ctrl+$ws6_key move container to workspace number $ws16
+bindsym $mod+Shift+Ctrl+$ws7_key move container to workspace number $ws17
+bindsym $mod+Shift+Ctrl+$ws8_key move container to workspace number $ws18
+bindsym $mod+Shift+Ctrl+$ws9_key move container to workspace number $ws19
+
+## Modify // Move Window to Next Free Workspace // <><Shift> ` ##
+#bindsym Shift+grave exec --no-startup-id /usr/bin/i3-next-workspace --move-window
+
+# Modify // Carry Focused Window to Workspace 1 - 10// <><Alt> 0..9 ##
+bindsym $mod+$alt+$ws1_key move container to workspace number $ws1; workspace number $ws1
+bindsym $mod+$alt+$ws2_key move container to workspace number $ws2; workspace number $ws2
+bindsym $mod+$alt+$ws3_key move container to workspace number $ws3; workspace number $ws3
+bindsym $mod+$alt+$ws4_key move container to workspace number $ws4; workspace number $ws4
+bindsym $mod+$alt+$ws5_key move container to workspace number $ws5; workspace number $ws5
+bindsym $mod+$alt+$ws6_key move container to workspace number $ws6; workspace number $ws6
+bindsym $mod+$alt+$ws7_key move container to workspace number $ws7; workspace number $ws7
+bindsym $mod+$alt+$ws8_key move container to workspace number $ws8; workspace number $ws8
+bindsym $mod+$alt+$ws9_key move container to workspace number $ws9; workspace number $ws9
+bindsym $mod+$alt+$ws10_key move container to workspace number $ws10; workspace number $ws10
+
+## Modify // Carry Focused Window to Workspace 11 - 19 // <><Alt><Ctrl> 1..9 ##
+bindsym $mod+$alt+Ctrl+$ws1_key move container to workspace number $ws11; workspace number $ws11
+bindsym $mod+$alt+Ctrl+$ws2_key move container to workspace number $ws12; workspace number $ws12
+bindsym $mod+$alt+Ctrl+$ws3_key move container to workspace number $ws13; workspace number $ws13
+bindsym $mod+$alt+Ctrl+$ws4_key move container to workspace number $ws14; workspace number $ws14
+bindsym $mod+$alt+Ctrl+$ws5_key move container to workspace number $ws15; workspace number $ws15
+bindsym $mod+$alt+Ctrl+$ws6_key move container to workspace number $ws16; workspace number $ws16
+bindsym $mod+$alt+Ctrl+$ws7_key move container to workspace number $ws17; workspace number $ws17
+bindsym $mod+$alt+Ctrl+$ws8_key move container to workspace number $ws18; workspace number $ws18
+bindsym $mod+$alt+Ctrl+$ws9_key move container to workspace number $ws19; workspace number $ws19
+
+## Modify // Carry Window to Next Free Workspace // <><Alt> ` ##
+#bindsym Mod1+grave exec --no-startup-id /usr/bin/i3-next-workspace --move-window-and-follow
+
+
+###############################################################################
+# Layout Stuff
+###############################################################################
+
+# You can "split" the current object of your focus with
+# $mod+b or $mod+v, for horizontal and vertical splits
+# respectively.
+bindsym $mod+b splith
+bindsym $mod+v splitv
+
+# Switch the current container between different layout styles
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
+
+# Make the current focus fullscreen
+bindsym $mod+f fullscreen
+
+# Toggle the current focus between tiling and floating mode
+bindsym $mod+Shift+space floating toggle
+
+# Swap focus between the tiling area and the floating area
+bindsym $mod+alt+space focus mode_toggle
+
+# Move focus to the parent container
+bindsym $mod+a focus parent
+
+
+###############################################################################
+# Scratchpad
+###############################################################################
+
+# Sway has a "scratchpad", which is a bag of holding for windows.
+# You can send windows there and get them back later.
+
+# Move the currently focused window to the scratchpad
+bindsym $mod+Shift+equal move scratchpad
+
+# Show the next scratchpad window or hide the focused scratchpad window.
+# If there are multiple scratchpad windows, this command cycles through them.
+bindsym $mod+equal scratchpad show
+
+
+###############################################################################
+# Resizing containers
+###############################################################################
+
+mode "resize" {
+    # left will shrink the containers width
+    # right will grow the containers width
+    # up will shrink the containers height
+    # down will grow the containers height
+    bindsym $left resize shrink width 10px
+    bindsym $down resize grow height 10px
+    bindsym $up resize shrink height 10px
+    bindsym $right resize grow width 10px
+
+    # Ditto, with arrow keys
+    bindsym Left resize shrink width 10px
+    bindsym Down resize grow height 10px
+    bindsym Up resize shrink height 10px
+    bindsym Right resize grow width 10px
+
+    # Return to default mode
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+
+bindsym $mod+r mode "resize"
+
+
+###############################################################################
+# Custom & Advanced commands
+###############################################################################
+
+# Special Keys
+
+bindsym XF86AudioRaiseVolume exec pactl set-sink-volume 0 +5%
+bindsym XF86AudioLowerVolume exec pactl set-sink-volume 0 -5%
+bindsym XF86AudioMute exec pactl set-sink-mute 0 toggle
+bindsym XF86MonBrightnessUp exec brightnessctl -c backlight set +2%
+bindsym XF86MonBrightnessDown exec brightnessctl -c backlight set 2%-
+bindsym XF86KbdBrightnessUp exec brightnessctl -c backlight set +2%
+bindsym XF86KbdBrightnessDown exec brightnessctl -c backlight set 2%-
+#bindsym XF86AudioPlay exec playerctl play-pause
+#bindsym XF86AudioNext exec playerctl next
+#bindsym XF86AudioPrev exec playerctl previous
+#bindsym XF86ScreenSaver exec "swaylock"
+
+# Screenshots & Video Shots
+
+bindsym Print exec "~/.config/scripts/screenshot-to-folder"
+bindsym Shift+Print exec "~/.config/scripts/screenshot-to-clipboard"
+bindsym $mod+Shift+Print exec "~/.config/scripts/video-to-file"
+
+# Screenlocking
+bindsym $mod+z exec ~/.config/scripts/lock-screen
+
+
+# Flashfocus
+exec ~/.local/bin/flashfocus
+
+
+###############################################################################
+# Bar
+###############################################################################
+
+bar {
+   swaybar_command waybar
+}
+
+#bar {
+#  status_command exec ~/bin/g5-status-bar
+#  position bottom
+#  mode dock
+#  #font pango:DejaVu Sans Mono 10
+#  font pango:Source Code Pro Medium 13, Material Design Icons 13
+#  separator_symbol " "
+#  tray_output primary
+#  strip_workspace_numbers yes
+
+#  colors {
+#      background "#002b36"
+#      statusline "#93a1a1"
+#      separator  "#268bd2"
+
+##      STATUS             BORDER   BACKGROUND TEXT
+#      focused_workspace  "#073642" "#073642" "#eee8d5"
+#      active_workspace   "#073642" "#073642" "#586e75"
+#      inactive_workspace "#002b36" "#002b36" "#586e75"
+#      urgent_workspace   "#dc322f" "#dc322f" "#fdf6e3"
+#  }
+#}
+
+input type:touchpad {
+    tap enabled
+    natural_scroll enabled
+}
+
+
+###############################################################################
+# Displays
+###############################################################################
+
+output eDP-1 pos 0 0
+output HDMI-A-2 pos 1920 0
+
+###############################################################################
+# Extra
+###############################################################################
+
+include ~/.config/sway/autostart
+include ~/.config/sway/decoration
+include /etc/sway/config.d/*
+
+
