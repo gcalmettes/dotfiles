@@ -85,7 +85,8 @@
 }
 
 #battery.critical {
-    color: red;
+    /* color: red; */
+    background-color: red;
 }
 
 #battery.warning.discharging {
@@ -163,7 +164,8 @@
 }
 
 #temperature.critical {
-    color: red;
+    /* color: red; */
+    background-color: red;
 }
 
 #tray {
@@ -190,6 +192,9 @@
 }
 
 #workspaces button.urgent {
-    border-color: #c9545d;
-    color: #c9545d;
+    background-color: #c9545d;
+    color: black;
+    /* color: #888888; */
+    /* border-color: #c9545d; */
+    /* color: #c9545d; */
 }

@@ -64,8 +64,13 @@ local plugins = {
   -- Provide icons for plugins
   {'kyazdani42/nvim-web-devicons'},
 
+  {"tjdevries/astronauta.nvim"},
+
   -- Fuzzy finder
   require("plugins.telescope").plugin,
+
+  -- languages modules for tree-sitter
+  require("plugins.treesitter").plugin,
 
   -- NerdTree
   {
@@ -75,25 +80,35 @@ local plugins = {
     },
   },
 
-  -- LSP and completion
-  {'neovim/nvim-lspconfig'},
-  {'hrsh7th/nvim-compe'},
+  -- LSP
+  -- require("plugins.lspsaga").plugin,
+  {"glepnir/lspsaga.nvim"},
+  {
+    "neovim/nvim-lspconfig",
+    config = function()
+      require("plugins.lsp")
+    end,
+  },
 
+
+  -- Completion
+  {
+    "hrsh7th/nvim-compe",
+    config = function()
+      require("plugins.compe")
+    end
+  },
 
   {"tpope/vim-commentary"},
 
   -- Brackets and matching pairs utils
-  {'9mm/vim-closer'},
   {
-    'andymass/vim-matchup',
-    event = 'VimEnter'
+    "windwp/nvim-autopairs",
+    config = function()
+     require("plugins.autopairs")
+    end
   },
-
-  -- languages modules for tree-sitter
-  {
-    'nvim-treesitter/nvim-treesitter',
-    run = ':TSUpdate'
-  },
+  -- {'andymass/vim-matchup'},
 
   {
     'lewis6991/gitsigns.nvim',
@@ -113,5 +128,4 @@ end)
 
 require('plugins.colorscheme')
 require('plugins.nvim-tree')
-
 
