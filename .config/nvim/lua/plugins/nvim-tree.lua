@@ -17,7 +17,7 @@ g.nvim_tree_group_empty = 1 -- compact folders that only contain a single folder
 g.nvim_tree_disable_window_picker = 0 -- will disable the window picker.
 g.nvim_tree_icon_padding = ' ' -- one space by default, used for rendering the space between the icon and the filename. Use with caution, it could break rendering if you set an empty string depending on your font.
 g.nvim_tree_symlink_arrow = ' >> ' -- defaults to ' ➛ '. used as a separator between symlinks' source and target.
-g.nvim_tree_respect_buf_cwd = 1 -- 0 by default, will change cwd of nvim-tree to that of new buffer's when opening nvim-tree.
+-- g.nvim_tree_respect_buf_cwd = 1 -- 0 by default, will change cwd of nvim-tree to that of new buffer's when opening nvim-tree.
 g.nvim_tree_create_in_closed_folder = 0 -- 1 by default, When creating files, sets the path of a file when cursor is on a closed folder to the parent folder when 0, and inside the folder when 1.
 g.nvim_tree_refresh_wait = 500 -- 1000 by default, control how often the tree can be refreshed, 1000 means the tree can be refresh once per 1000ms.
 
@@ -86,7 +86,7 @@ g.nvim_tree_icons = {
 require('nvim-tree').setup {
   disable_netrw       = false, -- disables netrw
   hijack_netrw        = false, -- prevents netrw from automatically opening when opening directories (but lets you keep its other utilities)
-  open_on_setup       = true, -- opens the tree when typing `vim $DIR` or `vim`
+  open_on_setup       = false, -- opens the tree when typing `vim $DIR` or `vim`
   ignore_ft_on_setup  = {},
   auto_close          = true, -- closes the tree when it's the last window
   open_on_tab         = false, -- will open the tree when entering a new tab and the tree was previously open
@@ -94,7 +94,7 @@ require('nvim-tree').setup {
   update_cwd          = false, -- will update the tree cwd when changing nvim's directory (DirChanged event). Behaves strangely with autochdir set.
   update_to_buf_dir   = {
     enable = true, -- this option allows the cursor to be updated when entering a buffer
-    auto_open = true,
+    auto_open = false,
   },
   diagnostics = {
     enable = false, -- will show lsp diagnostics in the signcolumn. See :help nvim_tree.diagnostics
@@ -119,7 +119,7 @@ require('nvim-tree').setup {
     custom = {}
   },
   view = {
-    width = 30, -- 30 by default, can be width_in_columns or 'width_in_percent%'
+    width = 40, -- 30 by default, can be width_in_columns or 'width_in_percent%'
     height = 30,
     hide_root_folder = false,
     side = 'left',
