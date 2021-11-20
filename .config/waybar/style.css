@@ -193,6 +193,7 @@
 
 #workspaces button.urgent {
     background-color: #c9545d;
+    border-color: #c9545d;
     color: black;
     /* color: #888888; */
     /* border-color: #c9545d; */
