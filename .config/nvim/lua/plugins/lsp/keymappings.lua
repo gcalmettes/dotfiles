@@ -36,7 +36,7 @@ M.lsp_mappings = function(type)
   -- nnoremap({ "gr", require("telescope.builtin").lsp_references, { silent = true } })
   nnoremap({ "gr", rename.rename, { silent = true } })
   -- close rename win use <C-c> in insert mode or `q` in normal mode or `:q`
-  nnoremap({ "gR", require("telescope.builtin").lsp_references, { silent = true } })
+  nnoremap({ "<C-r>", require("telescope.builtin").lsp_references, { silent = true } })
   -- Diagnostics
   -- show diagnostic
   nnoremap({ "<Leader>cd", diagnostic.show_line_diagnostics, { silent = true } })
