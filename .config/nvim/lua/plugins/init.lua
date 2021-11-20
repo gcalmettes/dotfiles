@@ -77,6 +77,9 @@ local plugins = {
     'kyazdani42/nvim-tree.lua',
     requires = {
       {'kyazdani42/nvim-web-devicons'},
+      config = function()
+        require("plugins.nvim-tree").setup()
+      end,
     },
   },
 
@@ -109,12 +112,13 @@ local plugins = {
     end
   },
   -- {'andymass/vim-matchup'},
-
   {
     'lewis6991/gitsigns.nvim',
     requires = {'nvim-lua/plenary.nvim'},
+    event = "BufEnter", -- don't need this on scratch buffer
     config = function()
-      require('gitsigns').setup()
+      require('plugins.gitsigns')
+      -- require('plugins.gitsigns').setup()
     end
   },
 
@@ -125,6 +129,11 @@ packer.startup(function(use)
     use(v)
   end
 end)
+-- packer.startup(function(use)
+--   for _, v in pairs(plugins) do
+--     use(v)
+--   end
+-- end)
 
 require('plugins.colorscheme')
 require('plugins.nvim-tree')

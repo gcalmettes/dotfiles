@@ -16,10 +16,12 @@ local rename = require("lspsaga.rename")
 
 M.lsp_mappings = function(type)
 
+  -- go to definition
+  nnoremap({ "gd", '<cmd>lua vim.lsp.buf.definition()<CR>', { silent = true } })
   -- lsp provider to find the cursor word definition and reference
   nnoremap({ "gh", provider.lsp_finder, { silent = true } })
   -- preview definition
-  nnoremap({ "gd", provider.preview_definition, { silent = true } })
+  nnoremap({ "gp", provider.preview_definition, { silent = true } })
   -- code action
   nnoremap({ "ca", codeaction.code_action, { silent = true } })
   nnoremap({ "<leader>ca", codeaction.range_code_action, { silent = true } })
