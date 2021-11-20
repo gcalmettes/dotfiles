@@ -1,0 +1,2 @@
+#!/bin/bash
+slurp | grim -g - - | xclip -i -selection c -t image/png

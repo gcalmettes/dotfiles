@@ -1,8 +1,8 @@
 # If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:/usr/local/bin:$PATH
+export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH="${HOME}/.oh-my-zsh"
+export ZSH="/home/gcalmettes/.oh-my-zsh"
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -35,7 +35,6 @@ setopt hist_expire_dups_first # delete duplicates first when HISTFILE size excee
 setopt hist_ignore_dups       # ignore duplicated commands history list
 setopt hist_ignore_space      # ignore commands that start with space
 setopt hist_verify            # show command with history expansion to user before running it
-
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -96,7 +95,8 @@ DISABLE_UNTRACKED_FILES_DIRTY="true"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(kubectl)
-plugins+=(git git-flow tmux)
+plugins+=(git git-flow)
+#plugins+=(tmux)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -186,7 +186,6 @@ export EDITOR='nvim'
 # Enabled true color support for terminals
 export NVIM_TUI_ENABLE_TRUE_COLOR=1
 
-
 # Aliases
 alias vim="nvim"
 alias ls="colorls"
@@ -207,35 +206,51 @@ alias ls="colorls"
 export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
 
-# Pyenv
+# Load pyenv into the shell by adding
 export PATH="${HOME}/.pyenv/bin:$PATH"
 eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
+
 
 # Poetry setup
 export PATH="$HOME/.poetry/bin:$PATH"
 
 # Go setup
 export GOROOT=/usr/local/go
-export GOPATH=$HOME/go_projects
+export GOPATH=$HOME/go
 export GOBIN=$GOPATH/bin
 export PATH=$GOBIN:$GOROOT/bin:$PATH
 
 # for istio
-export PATH=${HOME}/bin/istio-1.6.2/bin:$PATH
+export PATH=/home/gcalmettes/bin/istio-1.9.0/bin:$PATH
 
 # Make ASDF script available
-. $HOME/.asdf/asdf.sh
+. /home/gcalmettes/.asdf/asdf.sh
 
 # Kubernetes
-export KUBECONFIG=${KUBECONFIG:+$KUBECONFIG:}$HOME/.kube/config:$HOME/.kube/config-k3s-frl66
+export KUBECONFIG=${KUBECONFIG:+$KUBECONFIG:}$HOME/.kube/config:$HOME/.kube/config-k3s-internal-2:$HOME/.kube/config-k3s-internal-3:$HOME/.kube/config-k3d-local:$HOME/.kube/config-dss-ams:$HOME/.kube/config-lesafre
 
 # The next line updates PATH for the Google Cloud SDK.
-if [ -f '${HOME}/google-cloud-sdk/path.zsh.inc' ]; then . '${HOME}/google-cloud-sdk/path.zsh.inc'; fi
+if [ -f '/home/gcalmettes/google-cloud-sdk/path.zsh.inc' ]; then . '/home/gcalmettes/google-cloud-sdk/path.zsh.inc'; fi
 
 # The next line enables shell command completion for gcloud.
-if [ -f '${HOME}/google-cloud-sdk/completion.zsh.inc' ]; then . '${HOME}/google-cloud-sdk/completion.zsh.inc'; fi
+if [ -f '/home/gcalmettes/google-cloud-sdk/completion.zsh.inc' ]; then . '/home/gcalmettes/google-cloud-sdk/completion.zsh.inc'; fi
 
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"
 
+
+# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
+export PATH="$PATH:$HOME/.rvm/bin"
+
+# For locally built packages
+export PATH=$HOME/.local/bin:$PATH
+
+# For cargo
+export PATH=$HOME/.cargo/bin:$PATH
+
+# Git-cu (https://gitlab.com/3point2/git-cu)
+export GIT_CU_DIR=$HOME/git
+
+
+alias python3='python'
