@@ -38,7 +38,7 @@ require('gitsigns').setup {
   },
   attach_to_untracked = true,
 
-  current_line_blame = true,
+  current_line_blame = false, -- whether to show blame for current line
   current_line_blame_delay = 1000,
   current_line_blame_position = 'eol',
   current_line_blame_formatter_opts = {
