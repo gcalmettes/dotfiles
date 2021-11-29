@@ -78,21 +78,23 @@ local plugins = {
     requires = {
       {'kyazdani42/nvim-web-devicons'},
       config = function()
-        require("plugins.nvim-tree").setup()
+        -- require("plugins.nvim-tree").setup()
+        require("plugins.nvim-tree")
       end,
     },
   },
 
   -- LSP
   -- require("plugins.lspsaga").plugin,
-  {"glepnir/lspsaga.nvim"},
+  -- maintained fork of glepnir/lspsaga.nvim
+  {"tami5/lspsaga.nvim", branch = 'nvim51'},
   {
     "neovim/nvim-lspconfig",
     config = function()
       require("plugins.lsp")
     end,
   },
-
+  {'simrat39/rust-tools.nvim'},
 
   -- Completion
   {
@@ -119,6 +121,14 @@ local plugins = {
     config = function()
       require('plugins.gitsigns')
       -- require('plugins.gitsigns').setup()
+    end
+  },
+
+  {
+    'sindrets/diffview.nvim',
+    requires = {'nvim-lua/plenary.nvim'},
+    config = function()
+      require('plugins.gitdiffview')
     end
   },
 

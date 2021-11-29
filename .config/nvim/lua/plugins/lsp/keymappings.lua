@@ -5,7 +5,6 @@ local M = {}
 
 -- local provider = require"lspsaga.provider"
 local hover = require("lspsaga.hover")
--- local codeaction = require"lspsaga.codeaction"
 local sig_help = require("lspsaga.signaturehelp")
 local rename = require("lspsaga.rename")
 local diagnostic = require("lspsaga.diagnostic")
@@ -42,8 +41,8 @@ M.lsp_mappings = function(type)
   nnoremap({ "<Leader>cd", diagnostic.show_line_diagnostics, { silent = true } })
   nnoremap({ "<Leader>cc", diagnostic.show_cursor_diagnostics, { silent = true } })
   -- jump diagnostic
-  nnoremap({ "<Leader>dn", diagnostic.lsp_jump_diagnostic_next, { silent = true } })
-  nnoremap({ "<Leader>dN", diagnostic.lsp_jump_diagnostic_prev, { silent = true } })
+  -- nnoremap({ "<Leader>dn", diagnostic.navigate("next")(), { silent = true } })
+  -- nnoremap({ "<Leader>dn", diagnostic.navigate("prev")(), { silent = true } })
 
 end
 

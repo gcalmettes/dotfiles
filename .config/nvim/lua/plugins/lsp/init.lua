@@ -6,40 +6,47 @@ local mappings = require("plugins.lsp.keymappings")
 
 require("lspsaga").init_lsp_saga({
   -- default values
-  -- use_saga_diagnostic_sign = true,
-  -- error_sign = '',
-  -- warn_sign = '',
-  -- hint_sign = '',
-  -- infor_sign = '',
-  -- dianostic_header_icon = '   ',
-  -- code_action_icon = ' ',
-  -- code_action_prompt = {
-  --   enable = true,
-  --   sign = true,
-  --   sign_priority = 20,
-  --   virtual_text = true,
-  -- },
-  -- finder_definition_icon = '  ',
-  -- finder_reference_icon = '  ',
-  -- max_preview_lines = 10, -- preview lines of lsp_finder and definition preview
-  -- finder_action_keys = {
-  --   open = 'o', vsplit = 's',split = 'i',quit = 'q',scroll_down = '<C-f>', scroll_up = '<C-b>' -- quit can be a table
-  -- },
-  -- code_action_keys = {
-  --   quit = 'q',exec = '<CR>'
-  -- },
-  -- rename_action_keys = {
-  --   quit = '<C-c>',exec = '<CR>'  -- quit can be a table
-  -- },
-  -- definition_preview_icon = '  '
-  -- "single" "double" "round" "plus"
-  -- rename_prompt_prefix = '➤',
-  -- if you don't use nvim-lspconfig you must pass your server name and
-  -- the related filetypes into this table
-  -- like server_filetype_map = {metals = {'sbt', 'scala'}}
-  -- server_filetype_map = {}
-  -- border_style = "single"
-  border_style = "round",
+  debug = false,
+  use_saga_diagnostic_sign = true,
+  -- diagnostic sign
+  error_sign = "",
+  warn_sign = "",
+  hint_sign = "",
+  infor_sign = "",
+  dianostic_header_icon = "   ",
+  -- code action title icon
+  code_action_icon = " ",
+  code_action_prompt = {
+    enable = true,
+    sign = true,
+    sign_priority = 40,
+    virtual_text = true,
+  },
+  finder_definition_icon = "  ",
+  finder_reference_icon = "  ",
+  max_preview_lines = 10,
+  finder_action_keys = {
+    open = "o",
+    vsplit = "s",
+    split = "i",
+    quit = "q",
+    scroll_down = "<C-f>",
+    scroll_up = "<C-b>",
+  },
+  code_action_keys = {
+    quit = "q",
+    exec = "<CR>",
+  },
+  rename_action_keys = {
+    quit = "<C-c>",
+    exec = "<CR>",
+  },
+  definition_preview_icon = "  ",
+  -- border_style = "single",
+  border_style = "round", -- default: "single"
+  rename_prompt_prefix = "➤",
+  server_filetype_map = {},
+  diagnostic_prefix_format = "%d. ",
 })
 
 local custom_on_attach = function(client)
@@ -68,7 +75,7 @@ local servers = {
   html = {},
   jsonls = require("plugins.lsp.json").config,
   cssls = {},
-  rust_analyzer = {},
+  rust_analyzer = require("plugins.lsp.rust").config,
   pyright = require("plugins.lsp.pyright").config,
   gopls = require("plugins.lsp.gopls").config,
   yamlls = {
@@ -83,14 +90,20 @@ local servers = {
 
 for name, opts in pairs(servers) do
   local client = nvim_lsp[name]
-  client.setup({
-    cmd = opts.cmd or client.cmd,
-    filetypes = opts.filetypes or client.filetypes,
-    on_attach = opts.on_attach or custom_on_attach,
-    on_init = opts.on_init or custom_on_init,
-    handlers = opts.handlers or client.handlers,
-    root_dir = opts.root_dir or client.root_dir,
-    capabilities = opts.capabilities or custom_capabilities(),
-    settings = opts.settings or {},
-  })
+  local server_opts = {
+      cmd = opts.cmd or client.cmd,
+      filetypes = opts.filetypes or client.filetypes,
+      on_attach = opts.on_attach or custom_on_attach,
+      on_init = opts.on_init or custom_on_init,
+      handlers = opts.handlers or client.handlers,
+      root_dir = opts.root_dir or client.root_dir,
+      capabilities = opts.capabilities or custom_capabilities(),
+      settings = opts.settings or {},
+
+  }
+  if opts.override_client_setup then
+    opts.override_client_setup(server_opts)
+  else
+    client.setup(server_opts)
+  end
 end

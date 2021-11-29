@@ -206,10 +206,6 @@ alias ls="colorls"
 export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
 
-# Load pyenv into the shell by adding
-export PATH="${HOME}/.pyenv/bin:$PATH"
-eval "$(pyenv init -)"
-eval "$(pyenv virtualenv-init -)"
 
 
 # Poetry setup
@@ -230,12 +226,6 @@ export PATH=/home/gcalmettes/bin/istio-1.9.0/bin:$PATH
 # Kubernetes
 export KUBECONFIG=${KUBECONFIG:+$KUBECONFIG:}$HOME/.kube/config:$HOME/.kube/config-k3s-internal-2:$HOME/.kube/config-k3s-internal-3:$HOME/.kube/config-k3d-local:$HOME/.kube/config-dss-ams:$HOME/.kube/config-lesafre
 
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/home/gcalmettes/google-cloud-sdk/path.zsh.inc' ]; then . '/home/gcalmettes/google-cloud-sdk/path.zsh.inc'; fi
-
-# The next line enables shell command completion for gcloud.
-if [ -f '/home/gcalmettes/google-cloud-sdk/completion.zsh.inc' ]; then . '/home/gcalmettes/google-cloud-sdk/completion.zsh.inc'; fi
-
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"
 
@@ -254,3 +244,21 @@ export GIT_CU_DIR=$HOME/git
 
 
 alias python3='python'
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/home/gcalmettes/google-cloud-sdk-347.0.0-linux-x86_64/google-cloud-sdk/path.zsh.inc' ]; then . '/home/gcalmettes/google-cloud-sdk-347.0.0-linux-x86_64/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/home/gcalmettes/google-cloud-sdk-347.0.0-linux-x86_64/google-cloud-sdk/completion.zsh.inc' ]; then . '/home/gcalmettes/google-cloud-sdk-347.0.0-linux-x86_64/google-cloud-sdk/completion.zsh.inc'; fi
+
+# Activate completion for stern
+# https://github.com/stern/stern
+source <(stern --completion=zsh)
+
+
+# Load pyenv into the shell by adding
+export PATH="$HOME/.pyenv/bin:$PATH"
+eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
+export PATH="$(pyenv root)/shims:$PATH"
+

@@ -6,7 +6,6 @@ utils = require('utils')
 
 -- These additional options must be set BEFORE calling require'nvim-tree' or calling setup.
 -- They are being migrated to the setup function bit by bit,
-g.nvim_tree_gitignore = 0
 g.nvim_tree_quit_on_open = 0 -- closes the tree when you open a file
 g.nvim_tree_indent_markers = 1 -- this option shows indent markers when folders are open
 g.nvim_tree_git_hl = 0 -- this will enable file highlight for git attributes (can be used without the icons).
@@ -92,6 +91,9 @@ require('nvim-tree').setup {
   open_on_tab         = false, -- will open the tree when entering a new tab and the tree was previously open
   hijack_cursor       = false, -- when moving cursor in the tree, will position the cursor at the start of the file on the current line
   update_cwd          = false, -- will update the tree cwd when changing nvim's directory (DirChanged event). Behaves strangely with autochdir set.
+  git = {
+    ignore = false,
+  },
   update_to_buf_dir   = {
     enable = true, -- this option allows the cursor to be updated when entering a buffer
     auto_open = false,
