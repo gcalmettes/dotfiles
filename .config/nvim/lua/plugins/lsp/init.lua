@@ -78,13 +78,6 @@ local servers = {
   rust_analyzer = require("plugins.lsp.rust").config,
   pyright = require("plugins.lsp.pyright").config,
   gopls = require("plugins.lsp.gopls").config,
-  yamlls = {
-    settings = {
-      yaml = {
-         schemas = { kubernetes = "globPattern" },
-      }
-    }
-  }
 }
 
 

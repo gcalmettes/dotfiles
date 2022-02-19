@@ -32,15 +32,18 @@ require('gitsigns').setup {
     ['o ih'] = ':<C-U>lua require"gitsigns.actions".select_hunk()<CR>',
     ['x ih'] = ':<C-U>lua require"gitsigns.actions".select_hunk()<CR>'
   },
-  watch_index = {
+  watch_gitdir = {
     interval = 1000,
     follow_files = true
   },
   attach_to_untracked = true,
 
   current_line_blame = false, -- whether to show blame for current line
-  current_line_blame_delay = 1000,
-  current_line_blame_position = 'eol',
+  current_line_blame_opts = {
+    virt_text = true,
+    virt_text_post = 'eol',
+    delay = 1000,
+  },
   current_line_blame_formatter_opts = {
     relative_time = false
   },
