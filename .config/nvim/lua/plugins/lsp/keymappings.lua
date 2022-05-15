@@ -1,49 +1,120 @@
-local nnoremap = require("astronauta.keymap").nnoremap
-local inoremap = require("astronauta.keymap").inoremap
+local map = vim.api.nvim_set_keymap
+local telescope = require "telescope.builtin"
 
 local M = {}
 
--- local provider = require"lspsaga.provider"
-local hover = require("lspsaga.hover")
-local sig_help = require("lspsaga.signaturehelp")
-local rename = require("lspsaga.rename")
-local diagnostic = require("lspsaga.diagnostic")
-local provider = require("lspsaga.provider")
-local codeaction = require("lspsaga.codeaction")
-local action = require("lspsaga.action")
-local rename = require("lspsaga.rename")
+M.lsp_mappings = function(bufnr)
+  map("i", "<C-s>", "", {
+    callback = vim.lsp.buf.signature_help,
+    desc = "Trigger signature help from the language server",
+    noremap = true,
+    silent = true,
+  })
 
-M.lsp_mappings = function(type)
+  map("n", "K", "", {
+    callback = vim.lsp.buf.hover,
+    desc = "Trigger hover window from the language server",
+    noremap = true,
+    silent = true,
+  })
 
-  -- go to definition
-  nnoremap({ "gd", '<cmd>lua vim.lsp.buf.definition()<CR>', { silent = true } })
-  -- lsp provider to find the cursor word definition and reference
-  nnoremap({ "gh", provider.lsp_finder, { silent = true } })
-  -- preview definition
-  nnoremap({ "gp", provider.preview_definition, { silent = true } })
-  -- code action
-  nnoremap({ "ca", codeaction.code_action, { silent = true } })
-  nnoremap({ "<leader>ca", codeaction.range_code_action, { silent = true } })
-  nnoremap({ "ga", require("telescope.builtin").lsp_code_actions, { silent = true } })
-  -- show hover doc
-  nnoremap({ "K", hover.render_hover_doc, { silent = true } })
-  -- scroll down hover doc or scroll in definition preview
-  nnoremap({ "<C-f>", function() action.smart_scroll_with_saga(1) end, { silent = true } })
-  -- show signature help
-  inoremap({ "<C-s>", sig_help.signature_help, { silent = true } })
-  -- rename
-  -- nnoremap({ "gr", require("telescope.builtin").lsp_references, { silent = true } })
-  nnoremap({ "gr", rename.rename, { silent = true } })
-  -- close rename win use <C-c> in insert mode or `q` in normal mode or `:q`
-  nnoremap({ "<C-r>", require("telescope.builtin").lsp_references, { silent = true } })
-  -- Diagnostics
-  -- show diagnostic
-  nnoremap({ "<Leader>cd", diagnostic.show_line_diagnostics, { silent = true } })
-  nnoremap({ "<Leader>cc", diagnostic.show_cursor_diagnostics, { silent = true } })
-  -- jump diagnostic
-  -- nnoremap({ "<Leader>dn", diagnostic.navigate("next")(), { silent = true } })
-  -- nnoremap({ "<Leader>dn", diagnostic.navigate("prev")(), { silent = true } })
+  map("n", "<Leader>ga", "", {
+    callback = vim.lsp.buf.code_action,
+    desc = "Pick code actions from the language server",
+    noremap = true,
+    silent = true,
+  })
 
+  map("n", "<Leader>gd", "", {
+    callback = vim.lsp.buf.definition,
+    desc = "Go to symbol definition",
+    noremap = true,
+    silent = true,
+  })
+
+  map("n", "<Leader>gl", "", {
+    callback = vim.lsp.codelens.run,
+    desc = "Run codelens from the language server",
+    noremap = true,
+    silent = true,
+  })
+
+  map("n", "<Leader>gD", "", {
+    callback = function()
+      vim.diagnostic.open_float(0, {
+        show_header = false,
+        border = {
+        -- fancy border
+        { "🭽", "FloatBorder" },
+        { "▔", "FloatBorder" },
+        { "🭾", "FloatBorder" },
+        { "▕", "FloatBorder" },
+        { "🭿", "FloatBorder" },
+        { "▁", "FloatBorder" },
+        { "🭼", "FloatBorder" },
+        { "▏", "FloatBorder" },
+
+        -- padding border
+        -- {"▄", "Bordaa"},
+        -- {"▄", "Bordaa"},
+        -- {"▄", "Bordaa"},
+        -- {"█", "Bordaa"},
+        -- {"▀", "Bordaa"},
+        -- {"▀", "Bordaa"},
+        -- {"▀", "Bordaa"},
+        -- {"█", "Bordaa"}
+      },
+        severity_sort = true,
+        scope = "line",
+      })
+    end,
+    desc = "See diagnostics in floating window",
+    noremap = true,
+    silent = true,
+  })
+
+  map("n", "<Leader>gr", "", {
+    callback = telescope.lsp_references,
+    desc = "Find symbol references using telescope",
+    noremap = true,
+    silent = true,
+  })
+
+  map("n", "<Leader>gs", "", {
+    callback = M.workspace_symbols,
+    desc = "Find workspace symbols using Telescope",
+    noremap = true,
+    silent = true,
+  })
+
+  map("n", "<Leader>gR", "", {
+    callback = vim.lsp.buf.rename,
+    desc = "Rename current symbol",
+    noremap = true,
+    silent = true,
+  })
+
+  map("n", "<Leader>g]", "", {
+    callback = function()
+      vim.diagnostic.goto_next {
+        float = { show_header = false, border = Util.borders },
+      }
+    end,
+    desc = "Go to next diagnostic",
+    noremap = true,
+    silent = true,
+  })
+
+  map("n", "<Leader>g[", "", {
+    callback = function()
+      vim.diagnostic.goto_prev {
+        float = { show_header = false, border = Util.borders },
+      }
+    end,
+    desc = "Go to previous diagnostic",
+    noremap = true,
+    silent = true,
+  })
 end
 
 return M

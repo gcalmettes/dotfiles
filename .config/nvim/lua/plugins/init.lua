@@ -64,8 +64,6 @@ local plugins = {
   -- Provide icons for plugins
   {'kyazdani42/nvim-web-devicons'},
 
-  {"tjdevries/astronauta.nvim"},
-
   -- Fuzzy finder
   require("plugins.telescope").plugin,
 
@@ -85,9 +83,6 @@ local plugins = {
   },
 
   -- LSP
-  -- require("plugins.lspsaga").plugin,
-  -- maintained fork of glepnir/lspsaga.nvim
-  {"tami5/lspsaga.nvim", branch = 'nvim51'},
   {
     "neovim/nvim-lspconfig",
     config = function()
