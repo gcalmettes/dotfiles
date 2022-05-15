@@ -91,7 +91,7 @@ require('nvim-tree').setup {
     }
   },
   update_focused_file = {
-    enable      = false,
+    enable      = true,
     update_cwd  = false,
     ignore_list = {}
   },
@@ -160,22 +160,28 @@ utils.map('n', '<leader>n', '<CMD>lua require("nvim-tree").find_file(true)<CR>')
 -- nnoremap <leader>r :NvimTreeRefresh<CR>
 -- nnoremap <leader>n :NvimTreeFindFile<CR>
 
+--
+-- Automatically close the tab/vim when nvim-tree is the last window in the tab.
+vim.api.nvim_create_autocmd("BufEnter", {
+    pattern = "*NvimTree_*",
+    callback = function(args)
+      -- Count leftover windows
+      n_wins = 0
+      for _ in pairs(vim.api.nvim_list_wins()) do n_wins = n_wins + 1 end
 
--- Highlight current opened file in tree and hide cursor
--- modified from https://github.com/kyazdani42/nvim-tree.lua/issues/198#issuecomment-786616625
--- vim.api.nvim_exec([[
---   augroup HideCursor
---     au!
---     au WinLeave,FileType NvimTree set guicursor=n-v-c-sm:block,i-ci-ve:ver2u,r-cr-o:hor20,
---     au WinEnter,FileType NvimTree set guicursor=n-c-v:block-Cursor/Cursor-blinkon0,
---   augroup END
---   au FileType NvimTree hi Cursor blend=100
---   " Highlight current file
---   autocmd BufEnter NvimTree set cursorline
--- ]], false)
+      if n_wins == 1 then
+        vim.api.nvim_command('silent! quit')
+      end
+    end,
+    desc = "Quit if Nvim-Tree is last window",
+})
 
-vim.api.nvim_exec([[
-  au FileType NvimTree hi Cursor blend=100
-  " Highlight current file
-  autocmd BufEnter NvimTree set cursorline
-]], false)
+vim.api.nvim_create_autocmd("BufEnter", {
+    pattern = "*NvimTree_*",
+    callback = function(args)
+        vim.api.nvim_command('set cursorline')
+    end,
+    desc = "Set Cursorline for nvim tree",
+})
+
+

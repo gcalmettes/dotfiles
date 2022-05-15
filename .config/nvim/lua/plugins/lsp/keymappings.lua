@@ -81,7 +81,7 @@ M.lsp_mappings = function(bufnr)
   })
 
   map("n", "<Leader>gs", "", {
-    callback = M.workspace_symbols,
+    callback = telescope.lsp_workspace_symbols,
     desc = "Find workspace symbols using Telescope",
     noremap = true,
     silent = true,
