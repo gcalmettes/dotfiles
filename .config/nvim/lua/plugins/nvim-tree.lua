@@ -140,26 +140,6 @@ require('nvim-tree').setup {
 
 }
 
--- Keymapping.
-map('n', '<leader>nn', '<CMD>lua require("nvim-tree").toggle()<CR>', {
-  desc = "Toggle Nvim-Tree",
-  noremap = true,
-  silent = true,
-})
-
-map('n', '<leader>r', '<CMD>lua require("nvim-tree").refresh()<CR>', {
-  desc = "Refresh Nvim-Tree",
-  noremap = true,
-  silent = true,
-})
-
-map('n', '<leader>n', '<CMD>lua require("nvim-tree").find_file(true)<CR>', {
-  desc = "Nvim-Tree find_file",
-  noremap = true,
-  silent = true,
-})
-
-
 -- Automatically close the tab/vim when nvim-tree is the last window in the tab.
 vim.api.nvim_create_autocmd("BufEnter", {
     pattern = "*NvimTree_*",
@@ -182,5 +162,4 @@ vim.api.nvim_create_autocmd("BufEnter", {
     end,
     desc = "Set Cursorline for nvim tree",
 })
-
 

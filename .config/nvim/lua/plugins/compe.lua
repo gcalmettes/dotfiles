@@ -25,31 +25,3 @@ require("compe").setup{
     },
   },
 }
-
--- remap(
---   "i",
---   "<Tab>",
---   'pumvisible() ? "<C-n>" : "<Tab>"',
---   { silent = true, noremap = true, expr = true }
--- )
-
--- remap(
---   "i",
---   "<S-Tab>",
---   'pumvisible() ? "<C-p>" : "<S-Tab>"',
---   { silent = true, noremap = true, expr = true }
--- )
-
--- remap(
---   "i",
---   "<CR>",
---   "v:lua.Util.trigger_completion()",
---   { silent = true, expr = true }
--- )
-
--- remap(
---   "i",
---   "<C-Space>",
---   "compe#complete()",
---   { noremap = true, expr = true, silent = true }
--- )

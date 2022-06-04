@@ -1,4 +1,3 @@
-local map = vim.api.nvim_set_keymap
 local M = {}
 
 M.plugin = {
@@ -90,43 +89,6 @@ M.config = function()
     }
   end
 
-  -- toggle telescope.nvim
-  map("n", "<leader>ff", "<CMD>lua require('telescope.builtin').find_files()<CR>", {
-    desc = "Find files",
-    noremap = true,
-    silent = true,
-  })
-  map("n", "<leader>fg", "<CMD>lua require('telescope.builtin').live_grep()<CR>", {
-    desc = "Find by grep in current directory",
-    noremap = true,
-    silent = true,
-  })
-  map("n", "<leader>fb", "<CMD>lua require('telescope.builtin').buffers()<CR>", {
-    desc = "Find in opened buffers",
-    noremap = true,
-    silent = true,
-  })
-  map("n", "<leader>fh", "<CMD>lua require('telescope.builtin').help_tags()<CR>", {
-    desc = "Toggle Help",
-    noremap = true,
-    silent = true,
-  })
-  map("n", "<leader>fl", "<CMD>lua require('telescope.builtin').file_browser()<CR>", {
-    desc = "Browse files",
-    noremap = true,
-    silent = true,
-  })
-  map("n", "<leader>fgc", "<CMD>lua require('telescope.builtin').git_commits()<CR>", {
-    desc = "Find git commits",
-    noremap = true,
-    silent = true,
-  })
-
-  map("n", "<leader>fbb", "<CMD>lua require('telescope.builtin').current_buffer_fuzzy_find()<CR>", {
-    desc = "Fuzzy search in current buffer",
-    noremap = true,
-    silent = true,
-  })
 end
 
 return M
