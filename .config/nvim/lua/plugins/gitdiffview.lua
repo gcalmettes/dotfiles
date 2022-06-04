@@ -1,4 +1,5 @@
 local cb = require'diffview.config'.diffview_callback
+local map = vim.api.nvim_set_keymap
 
 require'diffview'.setup {
   diff_binaries = false,    -- Show diffs for binaries

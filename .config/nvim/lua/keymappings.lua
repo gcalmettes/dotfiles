@@ -132,3 +132,8 @@ map('n', '<leader>dvc', '<CMD>lua require("diffview").close()<CR>', {
   noremap = true,
   silent = true,
 })
+map('n', '<leader>dvh', '<CMD>lua require("diffview").file_history({})<CR>', {
+  desc = "Git Diff view history of current file",
+  noremap = true,
+  silent = true,
+})
