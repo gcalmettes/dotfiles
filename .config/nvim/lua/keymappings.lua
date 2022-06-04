@@ -1,23 +1,47 @@
-utils = require('utils')
+local map = vim.api.nvim_set_keymap
 
-utils.map('', '<leader>c', '"+y')       -- Copy to clipboard in normal, visual, select and operator modes
-utils.map('i', '<C-u>', '<C-g>u<C-u>')  -- Make <C-u> undo-friendly
-utils.map('i', '<C-w>', '<C-g>u<C-w>')  -- Make <C-w> undo-friendly
+map('', '<leader>c', '"+y', {
+  desc = "Copy to clipboard in normal, visual, select and operator modes",
+  noremap = true,
+  silent = true,
+})
 
--- <Tab> to navigate the completion menu
---map('i', '<S-Tab>', 'pumvisible() ? "\\<C-p>" : "\\<Tab>"', {expr = true})
---map('i', '<Tab>', 'pumvisible() ? "\\<C-n>" : "\\<Tab>"', {expr = true})
+map('i', '<C-u>', '<C-g>u<C-u>', {
+  desc = "Make <C-u> undo-friendly",
+  noremap = true,
+  silent = true,
+})
 
-utils.map('n', '<leader>o', 'm`o<Esc>``')  -- Insert a newline in normal mode
+map('i', '<C-w>', '<C-g>u<C-w>', {
+  desc = "Make <C-w> undo-friendly",
+  noremap = true,
+  silent = true,
+})
 
--- Clear highlighting on escape in normal mode.
--- The second line is needed for mapping to the escape key since Vim internally uses escape to represent special keys.
-utils.map('n', '<Esc>', '<cmd>noh<CR><Esc>')
-utils.map('n', '<Esc>^[', '<Esc>^[')
--- Other syntax possible
-utils.map('n', '<C-l>', '<cmd>noh<CR>')    -- Clear highlights
+map('n', '<leader>o', 'm`o<Esc>``', {
+  desc = "Insert a newline in normal mode",
+  noremap = true,
+  silent = true,
+})
+
+map('n', '<Esc>', '<cmd>noh<CR><Esc>', {
+  desc = "Clear highlighting on escape in normal mode",
+  noremap = true,
+  silent = true,
+})
+map('n', '<Esc>^[', '<Esc>^[', {
+  desc = "Mapping to the escape key since Vim internally uses escape to represent special keys",
+  noremap = true,
+  silent = true,
+})
+
+map('n', '<C-l>', '<cmd>noh<CR>', {
+  desc = "Clear highlights",
+  noremap = true,
+  silent = true,
+})
 
 -- Somehow, it's already on
---utils.map('n', '<leader>nn', ':NvimTreeToggle<CR>`')  -- Insert a newline in normal mode
+--map('n', '<leader>nn', ':NvimTreeToggle<CR>`')
 
 

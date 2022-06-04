@@ -1,10 +1,9 @@
 local g = vim.g
 local cmd = vim.cmd
-utils = require('utils')
+local map = vim.api.nvim_set_keymap
 
 -- These additional options must be set BEFORE calling require'nvim-tree' or calling setup.
 -- They are being migrated to the setup function bit by bit,
--- g.nvim_tree_respect_buf_cwd = 1 -- 0 by default, will change cwd of nvim-tree to that of new buffer's when opening nvim-tree.
 g.nvim_tree_refresh_wait = 500 -- 1000 by default, control how often the tree can be refreshed, 1000 means the tree can be refresh once per 1000ms.
 
 
@@ -141,20 +140,26 @@ require('nvim-tree').setup {
 
 }
 
+-- Keymapping.
+map('n', '<leader>nn', '<CMD>lua require("nvim-tree").toggle()<CR>', {
+  desc = "Toggle Nvim-Tree",
+  noremap = true,
+  silent = true,
+})
 
---utils.map('n', '<leader>nn', ':NvimTreeToggle<CR>')  -- Insert a newline in normal mode
-utils.map('n', '<leader>nn', '<CMD>lua require("nvim-tree").toggle()<CR>')
+map('n', '<leader>r', '<CMD>lua require("nvim-tree").refresh()<CR>', {
+  desc = "Refresh Nvim-Tree",
+  noremap = true,
+  silent = true,
+})
 
-utils.map('n', '<leader>r', '<CMD>lua require("nvim-tree").refresh()<CR>')
-utils.map('n', '<leader>n', '<CMD>lua require("nvim-tree").find_file(true)<CR>')
+map('n', '<leader>n', '<CMD>lua require("nvim-tree").find_file(true)<CR>', {
+  desc = "Nvim-Tree find_file",
+  noremap = true,
+  silent = true,
+})
 
 
--- NvimTreeOpen, NvimTreeClose, NvimTreeFocus, NvimTreeFindFileToggle, and NvimTreeResize are also available if you need them
--- nnoremap <C-n> :NvimTreeToggle<CR>
--- nnoremap <leader>r :NvimTreeRefresh<CR>
--- nnoremap <leader>n :NvimTreeFindFile<CR>
-
---
 -- Automatically close the tab/vim when nvim-tree is the last window in the tab.
 vim.api.nvim_create_autocmd("BufEnter", {
     pattern = "*NvimTree_*",
