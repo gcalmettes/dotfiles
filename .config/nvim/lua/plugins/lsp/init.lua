@@ -1,6 +1,7 @@
 vim.cmd [[packadd nvim-lspconfig]]
 
 local nvim_lsp = require("lspconfig")
+-- local nvim_lsp_config = require("lspconfig.configs")
 local mappings = require("plugins.lsp.keymappings")
 
 local custom_on_attach = function(client)
@@ -12,8 +13,10 @@ local custom_on_attach = function(client)
 
 end
 
-local custom_on_init = function()
-  print("Language Server Protocol started!")
+local custom_on_init = function(name)
+  return function()
+    print("Language Server Protocol started:", name, "!")
+  end
 end
 
 local custom_capabilities = function()
@@ -32,6 +35,7 @@ local servers = {
   rust_analyzer = require("plugins.lsp.rust").config,
   pyright = require("plugins.lsp.pyright").config,
   gopls = require("plugins.lsp.gopls").config,
+  terraformls = require("plugins.lsp.terraformls").config,
 }
 
 
@@ -41,7 +45,7 @@ for name, opts in pairs(servers) do
       cmd = opts.cmd or client.cmd,
       filetypes = opts.filetypes or client.filetypes,
       on_attach = opts.on_attach or custom_on_attach,
-      on_init = opts.on_init or custom_on_init,
+      on_init = opts.on_init or custom_on_init(name),
       handlers = opts.handlers or client.handlers,
       root_dir = opts.root_dir or client.root_dir,
       capabilities = opts.capabilities or custom_capabilities(),
