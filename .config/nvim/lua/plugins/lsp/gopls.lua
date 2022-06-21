@@ -15,13 +15,14 @@ function organize_goimports(wait_ms)
   end
 end
 
-
-
-vim.api.nvim_exec([[
-  autocmd BufWritePre *.go lua vim.lsp.buf.formatting()
-  autocmd BufWritePre *.go lua organize_goimports(1000)
-]], false)
-
+vim.api.nvim_create_autocmd("BufWritePre", {
+    pattern = "*.go",
+    callback = function(args)
+        vim.lsp.buf.formatting_sync()
+        organize_goimports(1000)
+    end,
+    desc = "Format terraform files",
+})
 
 M.config = {
   root_dir = vim.loop.cwd,
