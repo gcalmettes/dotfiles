@@ -32,7 +32,8 @@ M.config = function()
       "cmake",
       "tsx",
       "comment",
-      "query"
+      "query",
+      "hcl" -- terraform
     },
     matchup = { enable = true },
     highlight = { enable = true },
