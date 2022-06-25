@@ -10,7 +10,7 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 
 M.config = {
   flags = { debounce_text_changes = 150 },
-  filetypes = {"terraform", "tf"},
+  filetypes = {"terraform", "tf", "hcl"}
 }
 
 return M
