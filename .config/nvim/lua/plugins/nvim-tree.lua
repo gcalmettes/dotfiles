@@ -19,7 +19,7 @@ require('nvim-tree').setup {
     ignore = false,
   },
   create_in_closed_folder = false, -- true by default, When creating files, sets the path of a file when cursor is on a closed folder to the parent folder when 0, and inside the folder when 1.
-  update_to_buf_dir   = {
+  hijack_directories   = {
     enable = true, -- this option allows the cursor to be updated when entering a buffer
     auto_open = false,
   },
@@ -50,7 +50,6 @@ require('nvim-tree').setup {
     height = 30,
     hide_root_folder = false,
     side = 'left',
-    auto_resize = false, -- will resize the tree to its saved width when opening a file
     mappings = {
       custom_only = false,
       list = {}
