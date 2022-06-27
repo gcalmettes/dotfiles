@@ -20,6 +20,7 @@ set $right l
 
 # Terminal emulator
 set $term alacritty
+# set $term foot
 
 # Application launcher
 # Note: pass the final command to swaymsg so that the resulting window can be opened
@@ -36,7 +37,7 @@ input * repeat_delay 300
 input * repeat_rate 50
 input * xkb_layout fr
 
-output * bg ~/Pictures/colorful-triangles-background.jpg fill
+output * bg ~/.config/sway/wallpapers/colorful-triangles-background.jpg fill
 
 # Select monitor
 focus left
