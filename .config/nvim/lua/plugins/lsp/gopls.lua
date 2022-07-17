@@ -1,5 +1,6 @@
 local M = {}
 
+
 function organize_goimports(wait_ms)
   local params = vim.lsp.util.make_range_params()
   params.context = {only = {"source.organizeImports"}}
@@ -7,7 +8,7 @@ function organize_goimports(wait_ms)
   for _, res in pairs(result or {}) do
     for _, r in pairs(res.result or {}) do
       if r.edit then
-        vim.lsp.util.apply_workspace_edit(r.edit)
+        vim.lsp.util.apply_workspace_edit(r.edit, "utf-8")
       else
         vim.lsp.buf.execute_command(r.command)
       end
@@ -15,13 +16,14 @@ function organize_goimports(wait_ms)
   end
 end
 
+-- Format file and organize Go imports on save
 vim.api.nvim_create_autocmd("BufWritePre", {
     pattern = "*.go",
     callback = function(args)
         vim.lsp.buf.formatting_sync()
         organize_goimports(1000)
     end,
-    desc = "Format terraform files",
+    desc = "Format Go files",
 })
 
 M.config = {
