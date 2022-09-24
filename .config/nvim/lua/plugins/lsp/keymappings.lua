@@ -22,6 +22,7 @@ M.lsp_mappings = function(bufnr)
   map("n", "<Leader>gd", vim.lsp.buf.definition, {
     desc = "Go to symbol definition",
     silent = true,
+    buffer=bufnr,
   })
 
   map("n", "<Leader>gl", vim.lsp.codelens.run, {

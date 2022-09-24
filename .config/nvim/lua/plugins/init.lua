@@ -1,23 +1,21 @@
-local fn = vim.fn
-local install_path = fn.stdpath "data" .. "/site/pack/packer/start/packer.nvim"
 
-if fn.empty(fn.glob(install_path)) > 0 then
-  execute("!git clone https://github.com/wbthomason/packer.nvim " .. install_path)
-  execute "packadd packer.nvim"
+local ensure_packer = function()
+  local fn = vim.fn
+  local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
+  if fn.empty(fn.glob(install_path)) > 0 then
+    fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
+    vim.cmd [[packadd packer.nvim]]
+    return true
+  end
+  return false
 end
+
+local packer_bootstrap = ensure_packer()
 
 local packer_ok, packer = pcall(require, "packer")
 if not packer_ok then
   return
 end
---
---
--- vim.cmd [[packadd packer.nvim]]
-
--- local packer_ok, packer = pcall(require, "packer")
--- if not packer_ok then
---   return
--- end
 
 packer.init {
   ensure_dependencies = true,
@@ -70,24 +68,12 @@ local plugins = {
   -- languages modules for tree-sitter
   require("plugins.treesitter").plugin,
 
-  -- NerdTree
-  {
-    'kyazdani42/nvim-tree.lua',
-    requires = {
-      {'kyazdani42/nvim-web-devicons'},
-      config = function()
-        -- require("plugins.nvim-tree").setup()
-        require("plugins.nvim-tree")
-      end,
-    },
-  },
-
   -- LSP
   {
     "neovim/nvim-lspconfig",
     config = function()
       require("plugins.lsp")
-    end,
+    end
   },
   {'simrat39/rust-tools.nvim'},
 
@@ -146,18 +132,31 @@ local plugins = {
       }
     end
   },
+
+  -- NerdTree
+  {
+    'kyazdani42/nvim-tree.lua',
+    requires = {
+      {'kyazdani42/nvim-web-devicons'},
+      config = function()
+        -- require("plugins.nvim-tree").setup()
+        require("plugins.nvim-tree")
+      end
+    },
+  },
+
 }
 
 packer.startup(function(use)
   for _, v in pairs(plugins) do
     use(v)
   end
+  -- Automatically set up your configuration after cloning packer.nvim
+  -- Put this at the end after all plugins
+  if packer_bootstrap then
+    require('packer').sync()
+  end
 end)
--- packer.startup(function(use)
---   for _, v in pairs(plugins) do
---     use(v)
---   end
--- end)
 
 require('plugins.colorscheme')
 require('plugins.nvim-tree')

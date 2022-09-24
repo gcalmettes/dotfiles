@@ -6,7 +6,6 @@ local map = vim.api.nvim_set_keymap
 -- They are being migrated to the setup function bit by bit,
 g.nvim_tree_refresh_wait = 500 -- 1000 by default, control how often the tree can be refreshed, 1000 means the tree can be refresh once per 1000ms.
 
-
 require('nvim-tree').setup {
   disable_netrw       = false, -- disables netrw
   hijack_netrw        = false, -- prevents netrw from automatically opening when opening directories (but lets you keep its other utilities)
