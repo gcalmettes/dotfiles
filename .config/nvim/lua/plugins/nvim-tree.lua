@@ -45,8 +45,7 @@ require('nvim-tree').setup {
     custom = {}
   },
   view = {
-    width = 40, -- 30 by default, can be width_in_columns or 'width_in_percent%'
-    height = 30,
+    width = 35, -- 30 by default, can be width_in_columns or 'width_in_percent%'
     hide_root_folder = false,
     side = 'left',
     mappings = {

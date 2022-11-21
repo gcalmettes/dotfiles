@@ -1,17 +1,20 @@
+local fn = vim.fn
 
+-- Automatically install packer
 local ensure_packer = function()
-  local fn = vim.fn
   local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
   if fn.empty(fn.glob(install_path)) > 0 then
     fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
     vim.cmd [[packadd packer.nvim]]
+    print("Installing Packer, close and reopen Neovim...")
     return true
   end
   return false
 end
 
-local packer_bootstrap = ensure_packer()
+local PACKER_BOOTSTRAP = ensure_packer()
 
+-- Use a protected call so we don't error out on first use
 local packer_ok, packer = pcall(require, "packer")
 if not packer_ok then
   return
@@ -23,33 +26,35 @@ packer.init {
   git = {
     clone_timeout = 300, -- 5 minutes, I have horrible internet
   },
-  -- display = {
-  --   open_fn = function()
-      -- return require("packer.util").float {
-      --   border = {
-      --     -- fancy border
-      --     { "🭽", "FloatBorder" },
-      --     { "▔", "FloatBorder" },
-      --     { "🭾", "FloatBorder" },
-      --     { "▕", "FloatBorder" },
-      --     { "🭿", "FloatBorder" },
-      --     { "▁", "FloatBorder" },
-      --     { "🭼", "FloatBorder" },
-      --     { "▏", "FloatBorder" },
 
-      --     -- padding border
-      --     -- {"▄", "Bordaa"},
-      --     -- {"▄", "Bordaa"},
-      --     -- {"▄", "Bordaa"},
-      --     -- {"█", "Bordaa"},
-      --     -- {"▀", "Bordaa"},
-      --     -- {"▀", "Bordaa"},
-      --     -- {"▀", "Bordaa"},
-      --     -- {"█", "Bordaa"}
-      --   } 
-      -- }
-    -- end,
-  -- },
+  -- Have packer use a popup window
+  display = {
+    open_fn = function()
+      return require("packer.util").float {
+        border = {
+          -- fancy border
+          { "🭽", "FloatBorder" },
+          { "▔", "FloatBorder" },
+          { "🭾", "FloatBorder" },
+          { "▕", "FloatBorder" },
+          { "🭿", "FloatBorder" },
+          { "▁", "FloatBorder" },
+          { "🭼", "FloatBorder" },
+          { "▏", "FloatBorder" },
+
+          -- padding border
+          -- {"▄", "Bordaa"},
+          -- {"▄", "Bordaa"},
+          -- {"▄", "Bordaa"},
+          -- {"█", "Bordaa"},
+          -- {"▀", "Bordaa"},
+          -- {"▀", "Bordaa"},
+          -- {"▀", "Bordaa"},
+          -- {"█", "Bordaa"}
+        } 
+      }
+    end,
+  },
 }
 
 local plugins = {
@@ -133,6 +138,12 @@ local plugins = {
     end
   },
 
+  {
+    "ggandor/leap.nvim",
+    config = function()
+      require('leap').set_default_keymaps()
+    end
+  },
   -- NerdTree
   {
     'kyazdani42/nvim-tree.lua',
@@ -153,7 +164,7 @@ packer.startup(function(use)
   end
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins
-  if packer_bootstrap then
+  if PACKER_BOOTSTRAP then
     require('packer').sync()
   end
 end)

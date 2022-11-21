@@ -1,5 +1,3 @@
-
-print("1")
 require('nvim-autopairs').setup()
 
 require("nvim-autopairs.completion.compe").setup({
