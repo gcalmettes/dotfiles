@@ -50,7 +50,7 @@ packer.init {
           -- {"▀", "Bordaa"},
           -- {"▀", "Bordaa"},
           -- {"▀", "Bordaa"},
-          -- {"█", "Bordaa"}
+          -- {"█", "Bordaa"},
         } 
       }
     end,
