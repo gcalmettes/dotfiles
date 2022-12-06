@@ -1,8 +1,17 @@
 local rt = require("rust-tools")
 local M = {}
 
--- https://github.com/simrat39/rust-tools.nvim
+-- Format file and organize Go imports on save
+local format_sync_grp = vim.api.nvim_create_augroup("Format", {})
+vim.api.nvim_create_autocmd("BufWritePre", {
+  pattern = "*.rs",
+  callback = function()
+    vim.lsp.buf.format({ timeout_ms = 200 })
+  end,
+  group = format_sync_grp,
+})
 
+-- https://github.com/simrat39/rust-tools.nvim
 local opts = {
     tools = { -- rust-tools options
         -- -- Automatically set inlay hints (type hints)
