@@ -72,6 +72,11 @@ M.config = function()
         filetypes = { "png", "webp", "jpg", "jpeg", "pdf", "mkv" },
         find_cmd = "rg",
       },
+      -- https://github.com/princejoogie/dir-telescope.nvim#with-telescope-extensions
+      dir = {
+        hidden = true, -- do not show hidden files
+        respect_gitignore = true,
+      },
     },
   }
 
@@ -79,6 +84,7 @@ M.config = function()
 
   pcall(telescope.load_extension, "fzf") -- superfast sorter
   pcall(telescope.load_extension, "media_files") -- media preview
+  pcall(telescope.load_extension, "dir") -- find files and live grep in specified directory
 
   M.grep_prompt = function()
     builtin.grep_string {

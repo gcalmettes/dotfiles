@@ -80,6 +80,17 @@ map("n", "<leader>fbb", "<CMD>lua require('telescope.builtin').current_buffer_fu
   silent = true,
 })
 
+--
+-- telescope-dir
+--
+map("n", "<leader>fgd", "<CMD>lua require('telescope').extensions.dir.live_grep()<CR>", {
+  desc = "Find by grep in specified directory",
+  silent = true,
+})
+map("n", "<leader>ffd", "<CMD>lua require('telescope').extensions.dir.find_files()<CR>", {
+  desc = "Find by grep in specified directory",
+  silent = true,
+})
 
 --
 -- nvim-tree

@@ -67,8 +67,15 @@ local plugins = {
   -- Provide icons for plugins
   {'kyazdani42/nvim-web-devicons'},
 
-  -- Fuzzy finder
+  -- Telescope
   require("plugins.telescope").plugin,
+  {
+    "princejoogie/dir-telescope.nvim",
+    -- telescope.nvim is a required dependency
+    requires = {"nvim-telescope/telescope.nvim"},
+  },
+
+  {'nvim-lua/plenary.nvim'},
 
   -- languages modules for tree-sitter
   require("plugins.treesitter").plugin,
@@ -82,19 +89,37 @@ local plugins = {
   },
   {'simrat39/rust-tools.nvim'},
 
-  -- Completion
+  -- Autocompletion framework
   {
-    "hrsh7th/nvim-compe",
+    "hrsh7th/nvim-cmp",
     config = function()
-      require("plugins.compe")
+      require("plugins.cmp")
     end
   },
+  {
+    -- cmp LSP completion
+    "hrsh7th/cmp-nvim-lsp",
+    -- cmp Snippet completion
+    "hrsh7th/cmp-vsnip",
+    -- cmp Path completion
+    "hrsh7th/cmp-path",
+    "hrsh7th/cmp-buffer",
+    after = { "hrsh7th/nvim-cmp" },
+    requires = { "hrsh7th/nvim-cmp" },
+  },
+  -- See hrsh7th other plugins for more great completion sources!
 
+  -- Snippet engine
+  {'hrsh7th/vim-vsnip'},
+
+  -- Comments
   {"tpope/vim-commentary"},
 
   -- Brackets and matching pairs utils
   {
     "windwp/nvim-autopairs",
+    wants = "nvim-treesitter",
+    module = { "nvim-autopairs.completion.cmp", "nvim-autopairs" },
     config = function()
      require("plugins.autopairs")
     end

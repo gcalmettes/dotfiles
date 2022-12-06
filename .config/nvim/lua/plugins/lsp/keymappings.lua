@@ -1,6 +1,52 @@
 local map = vim.keymap.set
 local telescope = require "telescope.builtin"
 
+-- Set updatetime for CursorHold
+-- 300ms of no cursor movement to trigger CursorHold
+vim.opt.updatetime = 300
+
+-- have a fixed column for the diagnostics to appear in
+-- this removes the jitter when warnings/errors flow in
+vim.wo.signcolumn = "yes"
+
+local diagnostic_opts = {
+  focusable = false,
+
+  border = {
+    -- fancy border
+    { "🭽", "FloatBorder" },
+    { "▔", "FloatBorder" },
+    { "🭾", "FloatBorder" },
+    { "▕", "FloatBorder" },
+    { "🭿", "FloatBorder" },
+    { "▁", "FloatBorder" },
+    { "🭼", "FloatBorder" },
+    { "▏", "FloatBorder" },
+
+    -- -- padding border
+    -- {"▄", "Bordaa"},
+    -- {"▄", "Bordaa"},
+    -- {"▄", "Bordaa"},
+    -- {"█", "Bordaa"},
+    -- {"▀", "Bordaa"},
+    -- {"▀", "Bordaa"},
+    -- {"▀", "Bordaa"},
+    -- {"█", "Bordaa"}
+  },
+  severity_sort = true,
+  scope = "line",
+}
+
+
+-- Show diagnostic popup on cursor hover
+local diag_float_grp = vim.api.nvim_create_augroup("DiagnosticFloat", { clear = true })
+vim.api.nvim_create_autocmd("CursorHold", {
+  callback = function()
+   vim.diagnostic.open_float(nil, diagnostic_opts)
+  end,
+  group = diag_float_grp,
+})
+
 local M = {}
 
 M.lsp_mappings = function(bufnr)
@@ -31,32 +77,7 @@ M.lsp_mappings = function(bufnr)
   })
 
   map("n", "<Leader>gD", function()
-      vim.diagnostic.open_float(0, {
-        show_header = false,
-        border = {
-        -- fancy border
-        { "🭽", "FloatBorder" },
-        { "▔", "FloatBorder" },
-        { "🭾", "FloatBorder" },
-        { "▕", "FloatBorder" },
-        { "🭿", "FloatBorder" },
-        { "▁", "FloatBorder" },
-        { "🭼", "FloatBorder" },
-        { "▏", "FloatBorder" },
-
-        -- padding border
-        -- {"▄", "Bordaa"},
-        -- {"▄", "Bordaa"},
-        -- {"▄", "Bordaa"},
-        -- {"█", "Bordaa"},
-        -- {"▀", "Bordaa"},
-        -- {"▀", "Bordaa"},
-        -- {"▀", "Bordaa"},
-        -- {"█", "Bordaa"}
-      },
-        severity_sort = true,
-        scope = "line",
-      })
+      vim.diagnostic.open_float(0, diagnostic_opts)
     end, {
     desc = "See diagnostics in floating window",
     silent = true,
