@@ -26,7 +26,7 @@ end
 
 local custom_on_init = function(name)
   return function()
-    print("Language Server Protocol started:", name, "!")
+    -- print("Language Server Protocol started:", name, "!")
   end
 end
 

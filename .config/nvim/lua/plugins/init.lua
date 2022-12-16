@@ -118,12 +118,11 @@ local plugins = {
   -- Brackets and matching pairs utils
   {
     "windwp/nvim-autopairs",
-    wants = "nvim-treesitter",
-    module = { "nvim-autopairs.completion.cmp", "nvim-autopairs" },
     config = function()
      require("plugins.autopairs")
     end
   },
+
   -- {'andymass/vim-matchup'},
   {
     'lewis6991/gitsigns.nvim',
