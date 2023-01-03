@@ -71,8 +71,6 @@ local plugins = {
   require("plugins.telescope").plugin,
   {
     "princejoogie/dir-telescope.nvim",
-    -- telescope.nvim is a required dependency
-    requires = {"nvim-telescope/telescope.nvim"},
   },
 
   {'nvim-lua/plenary.nvim'},
@@ -105,7 +103,6 @@ local plugins = {
     "hrsh7th/cmp-path",
     "hrsh7th/cmp-buffer",
     after = { "hrsh7th/nvim-cmp" },
-    requires = { "hrsh7th/nvim-cmp" },
   },
   -- See hrsh7th other plugins for more great completion sources!
 
@@ -126,7 +123,6 @@ local plugins = {
   -- {'andymass/vim-matchup'},
   {
     'lewis6991/gitsigns.nvim',
-    requires = {'nvim-lua/plenary.nvim'},
     event = "BufEnter", -- don't need this on scratch buffer
     config = function()
       require('plugins.gitsigns')
@@ -136,7 +132,6 @@ local plugins = {
 
   {
     'sindrets/diffview.nvim',
-    requires = {'nvim-lua/plenary.nvim'},
     config = function()
       require('plugins.gitdiffview')
     end
@@ -152,7 +147,6 @@ local plugins = {
 
   {
     "folke/trouble.nvim",
-    requires = "kyazdani42/nvim-web-devicons",
     config = function()
       require("trouble").setup {
         -- your configuration comes here
@@ -171,13 +165,9 @@ local plugins = {
   -- NerdTree
   {
     'kyazdani42/nvim-tree.lua',
-    requires = {
-      {'kyazdani42/nvim-web-devicons'},
-      config = function()
-        -- require("plugins.nvim-tree").setup()
-        require("plugins.nvim-tree")
-      end
-    },
+    config = function()
+      require("plugins.nvim-tree")
+    end
   },
 
 }
