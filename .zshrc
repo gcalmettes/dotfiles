@@ -19,6 +19,8 @@ export GOPATH=$HOME/go
 export GOBIN=$GOPATH/bin
 export PATH=$GOBIN:$GOROOT/bin:$PATH
 
+export PATH="$PATH:/opt/mssql-tools/bin"
+
 # Load pyenv into the shell
 export PATH="$HOME/.pyenv/bin:$PATH"
 eval "$(pyenv init -)"
@@ -39,12 +41,40 @@ for config_file in \
   'config' \
   'config-k3s-internal-2' \
   'config-k3s-internal-3' \
-  'config-k3d-local' \
+  'config-k3s-local' \
   'config-dss-ams';
 do
   KUBECONFIG=${KUBECONFIG:+$KUBECONFIG:}$HOME/.kube/$config_file
 done
 export KUBECONFIG=$KUBECONFIG
+
+
+# # To start k3s with everything contained in a single folder
+# startk3s () {
+#   # configured to keep all its data in one folder
+#   sudo $HOME/bin/k3s server  \
+#   --data-dir  $HOME/k3s \
+#   --config $HOME/k3s/config.yaml \
+#   --disable traefik \
+#   --write-kubeconfig $HOME/k3s/k3s-local.yaml
+
+# }
+
+# bootstrapk3s () {
+#   # replace cluster name in config
+#   while [[ $(grep -F "default" ~/k3s/k3s-local.yaml) ]] && [[ ! $(grep -F "k3s-local" ~/k3s/k3s-local.yaml) ]]
+#     do
+#       echo "Waiting for the local file to be updated ..."
+#       sed -i 's/default/k3s-local/g' $HOME/k3s/k3s-local.yaml
+#       sleep 1
+#     done
+
+#   echo "Switching context"
+#   kubectl config use-context k3s-local
+
+#   echo "Installing/Updating nginx ingress controller"
+#   helm upgrade nginx nginx-stable/nginx-ingress --namespace ingress --create-namespace --install
+# }
 
 
 # Git-cu (https://gitlab.com/3point2/git-cu)
@@ -124,13 +154,103 @@ plugins+=(zsh-autosuggestions)
 
 source $ZSH/oh-my-zsh.sh
 
+###########################################################
+###### ssh-agent
+###########################################################
+# Maintain a persistent ssh-agent across multiple
+# invocations of your shell when the parent process launching them
+# does not set the necessary environment variables.
+AGENT_VARS_FILE="${HOME}/.ssh/agent-vars.sh"
+
+start_agent() {
+    rm -f ${AGENT_VARS_FILE}
+    touch ${AGENT_VARS_FILE}
+    chmod 600 ${AGENT_VARS_FILE}
+    [[ -s ${AGENT_VARS_FILE} ]] && { echo "Resetting agent file failed. Non-zero length!"; exit 1; }
+    ssh-agent | sed 's/^echo/#echo/' >> "${AGENT_VARS_FILE}"
+    echo "New ssh-agent started"
+    source ${AGENT_VARS_FILE}
+    grep -slR "PRIVATE" ~/.ssh/ | xargs ssh-add
+}
+
+agent_running() {
+    if [[ -n ${SSH_AUTH_SOCK} ]]; then
+        ssh-add -l > /dev/null 2>&1
+        case $? in
+            0)  # Everything looks good
+                return 0
+                ;;
+            1)
+                echo "Looks like ssh-agent is running, but it's locked or has no key loaded"
+                return 0
+                ;;
+        esac
+    fi
+    return 1
+}
+
+[[ -r ${AGENT_VARS_FILE} ]] && source ${AGENT_VARS_FILE}
+agent_running || start_agent
+[[ -r ${AGENT_VARS_FILE} ]] && source ${AGENT_VARS_FILE}
+
+###########################################################
+
 # Aliases
 alias vim="nvim"
 alias ls="exa --icons"
-alias docker="nerdctl"
+# alias docker="nerdctl"
 alias python3='python'
+alias git="$HOME/.config/scripts/git-warning"
 
 # Functions
 cleankube () {
-  export STATUS=$1 && echo $(kubectl get ns | grep -v NAME | awk '{printf "%s\\n",$1}') | xargs -t -I % sh -c 'kubectl delete pod -n %  $(kubectl get pod -n % |  grep $STATUS | awk '"'"'{print $1}'"'"') || printf "\n***************\n** Namespace % clean\n***************\n\n"'
+  if [ ! -z $1 ] 
+  then
+      export STATUS=$1
+  else
+      export STATUS="completed|error|evicted|crashloop"
+  fi
+  echo $(kubectl get ns | grep -v NAME | awk '{printf "%s\\n",$1}') | xargs -t -I % sh -c 'kubectl delete pod -n %  $(kubectl get pod -n % |  grep -i -E "$STATUS" | awk '"'"'{print $1}'"'"') || printf "\n***************\n** Namespace % clean\n***************\n\n"'
 }
+
+#### VPN utils ####
+vpnstart () {
+ openvpn3 session-start -c $HOME/.config/openvpn/frl66-gcalmettes@idmog.openvpn.com.ovpn
+}
+
+vpnstop () {
+ sudo pkill openvpn3
+}
+
+vpnlogs () {
+ openvpn3 log -c $HOME/.config/openvpn/frl66-gcalmettes@idmog.openvpn.com.ovpn
+}
+
+
+
+
+# Use new gcloud authentication with kubectl
+export USE_GKE_GCLOUD_AUTH_PLUGIN=True
+
+# # Make ASDF script available
+# . /home/gcalmettes/.asdf/asdf.sh
+
+
+ # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
+# export PATH="$PATH:$HOME/.rvm/bin"
+
+
+# # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
+# export PATH="$PATH:$HOME/.rvm/bin"
+
+
+
+
+
+# # The next line updates PATH for the Google Cloud SDK.
+# if [ -f '/home/gcalmettes/google-cloud-sdk-347.0.0-linux-x86_64/google-cloud-sdk/path.zsh.inc' ]; then . '/home/gcalmettes/google-cloud-sdk-347.0.0-linux-x86_64/google-cloud-sdk/path.zsh.inc'; fi
+
+# # The next line enables shell command completion for gcloud.
+# if [ -f '/home/gcalmettes/google-cloud-sdk-347.0.0-linux-x86_64/google-cloud-sdk/completion.zsh.inc' ]; then . '/home/gcalmettes/google-cloud-sdk-347.0.0-linux-x86_64/google-cloud-sdk/completion.zsh.inc'; fi
+
+
