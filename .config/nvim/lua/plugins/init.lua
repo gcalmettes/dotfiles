@@ -5,7 +5,7 @@ local ensure_packer = function()
   local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
   if fn.empty(fn.glob(install_path)) > 0 then
     fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
-    vim.cmd [[packadd packer.nvim]]
+    vim.api.nvim_command('packadd packer.nvim')
     print("Installing Packer, close and reopen Neovim...")
     return true
   end
@@ -63,6 +63,10 @@ local plugins = {
 
   -- Colorscheme
   {'mhartington/oceanic-next'},
+  {'navarasu/onedark.nvim'},
+  -- {'joshdick/onedark.vim'},
+
+
 
   -- Provide icons for plugins
   {'kyazdani42/nvim-web-devicons'},
