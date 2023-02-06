@@ -33,7 +33,8 @@ M.config = function()
       "tsx",
       "comment",
       "query",
-      "hcl" -- terraform
+      "hcl", -- terraform
+      "terraform",
     },
     matchup = { enable = true },
     highlight = { enable = true },

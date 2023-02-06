@@ -20,7 +20,7 @@ vim.api.nvim_create_autocmd("BufLeave", {
     callback = function(args)
         require('plugins/colorscheme').SetupDefaultColorScheme()
     end,
-    desc = "Use One-Dark theme",
+    desc = "Use default colorscheme theme",
 })
 
 
@@ -36,16 +36,16 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 
 -- File detection override
 
-vim.api.nvim_create_autocmd({"BufRead", "BufNewFile"}, {
-    pattern = {"*.tf", "*.tfvars", "*.hcl"},
-    callback = function(args)
-      vim.api.nvim_command('set filetype=hcl')
-      -- vim.api.nvim_exec([[
-      --   set filetype=hcl
-      -- ]], false)
-    end,
-    desc = "set filetype to hcl for terraform highlights",
-})
+-- vim.api.nvim_create_autocmd({"BufRead", "BufNewFile"}, {
+--     pattern = {"*.tf", "*.tfvars", "*.hcl"},
+--     callback = function(args)
+--       vim.api.nvim_command('set filetype=hcl')
+--       -- vim.api.nvim_exec([[
+--       --   set filetype=hcl
+--       -- ]], false)
+--     end,
+--     desc = "set filetype to hcl for terraform highlights",
+-- })
 
 vim.api.nvim_create_autocmd({"BufRead", "BufNewFile"}, {
     pattern = {"*.tfstate", "*.tfstate.backup"},
