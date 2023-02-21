@@ -142,7 +142,7 @@ local plugins = {
     end
   },
 
-  {'nerd-tree/nvim-web-devicons'},
+  {'nvim-tree/nvim-web-devicons'},
 
   -- null-ls (LSP like for non-LSP sources, so pure Lua)
   {
@@ -154,7 +154,7 @@ local plugins = {
 
   {
     "folke/trouble.nvim",
-    requires = "nerd-tree/nvim-web-devicons",
+    requires = "nvim-tree/nvim-web-devicons",
     config = function()
       require("trouble").setup {
         -- your configuration comes here
