@@ -66,11 +66,6 @@ local plugins = {
   {'navarasu/onedark.nvim'},
   -- {'joshdick/onedark.vim'},
 
-
-
-  -- Provide icons for plugins
-  {'kyazdani42/nvim-web-devicons'},
-
   -- Telescope
   require("plugins.telescope").plugin,
   {
@@ -147,6 +142,8 @@ local plugins = {
     end
   },
 
+  {'nerd-tree/nvim-web-devicons'},
+
   -- null-ls (LSP like for non-LSP sources, so pure Lua)
   {
     'jose-elias-alvarez/null-ls.nvim',
@@ -157,7 +154,7 @@ local plugins = {
 
   {
     "folke/trouble.nvim",
-    requires = "kyazdani42/nvim-web-devicons",
+    requires = "nerd-tree/nvim-web-devicons",
     config = function()
       require("trouble").setup {
         -- your configuration comes here
@@ -173,10 +170,12 @@ local plugins = {
       require('leap').set_default_keymaps()
     end
   },
+
   -- NerdTree
+
   {
-    'kyazdani42/nvim-tree.lua',
-    requires = 'kyazdani42/nvim-web-devicons',
+    'nvim-tree/nvim-tree.lua',
+    requires = 'nvim-tree/nvim-web-devicons',
     config = function()
       -- require("plugins.nvim-tree").setup()
       require("plugins.nvim-tree")

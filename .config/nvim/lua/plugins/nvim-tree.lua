@@ -88,8 +88,8 @@ require('nvim-tree').setup {
         ['folder_arrow'] = false,
       },
       glyphs = {
-        -- default will show icon by default if no icon is provided
-        -- default shows no icon by default
+      --   -- default will show icon by default if no icon is provided
+      --   -- default shows no icon by default
         ['default'] = '',
         ['symlink'] = '',
         ['git'] = {
