@@ -96,21 +96,20 @@ map("n", "<leader>ffd", "<CMD>lua require('telescope').extensions.dir.find_files
 -- nvim-tree
 --
 
-map('n', '<leader>nn', '<CMD>lua require("nvim-tree").toggle()<CR>', {
+map('n', '<leader>nn', '<CMD>lua require("nvim-tree.api").tree.toggle()<CR>', {
   desc = "Toggle Nvim-Tree",
   silent = true,
 })
 
-map('n', '<leader>r', '<CMD>lua require("nvim-tree").refresh()<CR>', {
+map('n', '<leader>r', '<CMD>lua require("nvim-tree.api").tree.refresh()<CR>', {
   desc = "Refresh Nvim-Tree",
   silent = true,
 })
 
-map('n', '<leader>n', '<CMD>lua require("nvim-tree").find_file(true)<CR>', {
+map('n', '<leader>n', '<CMD>lua require("nvim-tree.api").tree.find_file(true)<CR>', {
   desc = "Nvim-Tree find_file",
   silent = true,
 })
-
 
 --
 -- git diffview
