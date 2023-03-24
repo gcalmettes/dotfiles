@@ -1,0 +1,10 @@
+#!/bin/bash
+
+echo "Enter a filename for the video (the date will be automatically prepend to it):"
+read filename
+filename="${filename// /-}"
+# ensure destination folder exists
+mkdir -p $HOME/Videos/recordings/
+filepath=$HOME/Videos/recordings/$(date +"%Y%m%d")-$filename.mp4
+
+wf-recorder -abluez_sink.94_DB_56_DE_96_A7.a2dp_sink.monitor --codec=libx264 --file=$filepath
