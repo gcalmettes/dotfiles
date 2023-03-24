@@ -116,7 +116,7 @@ ZSH_THEME="spaceship"
 export SPACESHIP_KUBECTL_SHOW=true
 export SPACESHIP_KUBECTL_VERSION_SHOW=false
 export SPACESHIP_GCLOUD_SHOW=false
-export SPACESHIP_PYENV_SHOW=true
+export SPACESHIP_PYTHON_SHOW=true
 export SPACESHIP_VENV_SHOW=false
 export SPACESHIP_DOCKER_SHOW=false
 
@@ -157,6 +157,7 @@ source $ZSH/oh-my-zsh.sh
 ###########################################################
 ###### ssh-agent
 ###########################################################
+# requires sudo apt install ssh-askpass
 # Maintain a persistent ssh-agent across multiple
 # invocations of your shell when the parent process launching them
 # does not set the necessary environment variables.
@@ -215,7 +216,7 @@ cleankube () {
 
 #### VPN utils ####
 vpnstart () {
- openvpn3 session-start -c $HOME/.config/openvpn/frl66-gcalmettes@idmog.openvpn.com.ovpn
+ openvpn3 session-start -c $HOME/.config/openvpn/FRL207_gcalmettes@idmog.openvpn.com.ovpn
 }
 
 vpnstop () {
@@ -223,7 +224,7 @@ vpnstop () {
 }
 
 vpnlogs () {
- openvpn3 log -c $HOME/.config/openvpn/frl66-gcalmettes@idmog.openvpn.com.ovpn
+ openvpn3 log -c $HOME/.config/openvpn/FRL207_gcalmettes@idmog.openvpn.com.ovpn
 }
 
 
@@ -252,5 +253,4 @@ export USE_GKE_GCLOUD_AUTH_PLUGIN=True
 
 # # The next line enables shell command completion for gcloud.
 # if [ -f '/home/gcalmettes/google-cloud-sdk-347.0.0-linux-x86_64/google-cloud-sdk/completion.zsh.inc' ]; then . '/home/gcalmettes/google-cloud-sdk-347.0.0-linux-x86_64/google-cloud-sdk/completion.zsh.inc'; fi
-
 
