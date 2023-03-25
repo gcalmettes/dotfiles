@@ -21,19 +21,8 @@ export PATH=$GOBIN:$GOROOT/bin:$PATH
 
 export PATH="$PATH:/opt/mssql-tools/bin"
 
-# Load pyenv into the shell
-export PATH="$HOME/.pyenv/bin:$PATH"
-eval "$(pyenv init -)"
-eval "$(pyenv virtualenv-init -)"
-export PATH="$(pyenv root)/shims:$PATH"
-
 # Poetry setup
 export PATH="$HOME/.poetry/bin:$PATH"
-
-# NVM
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 # Kubernetes
 KUBECONFIG=${KUBECONFIG:+$KUBECONFIG:}
@@ -76,6 +65,8 @@ export KUBECONFIG=$KUBECONFIG
 #   helm upgrade nginx nginx-stable/nginx-ingress --namespace ingress --create-namespace --install
 # }
 
+# Silent direnv
+export DIRENV_LOG_FORMAT=""
 
 # Git-cu (https://gitlab.com/3point2/git-cu)
 export GIT_CU_DIR=$HOME/git
@@ -113,13 +104,6 @@ prompt_context(){}
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
 ZSH_THEME="spaceship"
 
-export SPACESHIP_KUBECTL_SHOW=true
-export SPACESHIP_KUBECTL_VERSION_SHOW=false
-export SPACESHIP_GCLOUD_SHOW=false
-export SPACESHIP_PYTHON_SHOW=true
-export SPACESHIP_VENV_SHOW=false
-export SPACESHIP_DOCKER_SHOW=false
-
 #
 ##############################################################################
 # History Configuration
@@ -150,7 +134,10 @@ DISABLE_UNTRACKED_FILES_DIRTY="true"
 plugins=(kubectl)
 plugins+=(git git-flow)
 plugins+=(zsh-autosuggestions)
+plugins+=(asdf)
 
+# pyenv (asdf still uses pyenv under the hood)
+# set -gx PYTHON_BUILD_ARIA2_OPTS "-x 10 -k 1M" # Use aria2c when downloading
 
 source $ZSH/oh-my-zsh.sh
 
@@ -228,29 +215,22 @@ vpnlogs () {
 }
 
 
+new_venv () {
+  local python_version
+  if [ ! -z $1 ] 
+  then
+      python_version=$1
+  else
+    python_version=$(asdf current python | awk '{print $2}')
+  fi
+ asdf direnv local python $python_version
+ echo "layout python" >> .envrc
+}
 
 
 # Use new gcloud authentication with kubectl
 export USE_GKE_GCLOUD_AUTH_PLUGIN=True
 
-# # Make ASDF script available
-# . /home/gcalmettes/.asdf/asdf.sh
-
-
- # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
-# export PATH="$PATH:$HOME/.rvm/bin"
-
-
-# # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
-# export PATH="$PATH:$HOME/.rvm/bin"
-
-
-
-
-
-# # The next line updates PATH for the Google Cloud SDK.
-# if [ -f '/home/gcalmettes/google-cloud-sdk-347.0.0-linux-x86_64/google-cloud-sdk/path.zsh.inc' ]; then . '/home/gcalmettes/google-cloud-sdk-347.0.0-linux-x86_64/google-cloud-sdk/path.zsh.inc'; fi
-
-# # The next line enables shell command completion for gcloud.
-# if [ -f '/home/gcalmettes/google-cloud-sdk-347.0.0-linux-x86_64/google-cloud-sdk/completion.zsh.inc' ]; then . '/home/gcalmettes/google-cloud-sdk-347.0.0-linux-x86_64/google-cloud-sdk/completion.zsh.inc'; fi
+# ASDF plugins
+source "${XDG_CONFIG_HOME:-$HOME/.config}/asdf-direnv/zshrc"
 
