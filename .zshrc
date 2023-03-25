@@ -37,33 +37,8 @@ do
 done
 export KUBECONFIG=$KUBECONFIG
 
-
-# # To start k3s with everything contained in a single folder
-# startk3s () {
-#   # configured to keep all its data in one folder
-#   sudo $HOME/bin/k3s server  \
-#   --data-dir  $HOME/k3s \
-#   --config $HOME/k3s/config.yaml \
-#   --disable traefik \
-#   --write-kubeconfig $HOME/k3s/k3s-local.yaml
-
-# }
-
-# bootstrapk3s () {
-#   # replace cluster name in config
-#   while [[ $(grep -F "default" ~/k3s/k3s-local.yaml) ]] && [[ ! $(grep -F "k3s-local" ~/k3s/k3s-local.yaml) ]]
-#     do
-#       echo "Waiting for the local file to be updated ..."
-#       sed -i 's/default/k3s-local/g' $HOME/k3s/k3s-local.yaml
-#       sleep 1
-#     done
-
-#   echo "Switching context"
-#   kubectl config use-context k3s-local
-
-#   echo "Installing/Updating nginx ingress controller"
-#   helm upgrade nginx nginx-stable/nginx-ingress --namespace ingress --create-namespace --install
-# }
+# Use new gcloud authentication with kubectl
+export USE_GKE_GCLOUD_AUTH_PLUGIN=True
 
 # Silent direnv
 export DIRENV_LOG_FORMAT=""
@@ -102,7 +77,21 @@ prompt_context(){}
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="spaceship"
+ZSH_THEME="" # we use starship instead
+
+# ZSH plugins
+plugins=(kubectl)
+plugins+=(git git-flow)
+plugins+=(zsh-autosuggestions)
+plugins+=(asdf)
+
+source $ZSH/oh-my-zsh.sh
+
+eval "$(starship init zsh)"
+
+
+# ASDF plugins
+source "${XDG_CONFIG_HOME:-$HOME/.config}/asdf-direnv/zshrc"
 
 #
 ##############################################################################
@@ -130,16 +119,6 @@ COMPLETION_WAITING_DOTS="true"
 DISABLE_UNTRACKED_FILES_DIRTY="true"
 
 
-# ZSH plugins
-plugins=(kubectl)
-plugins+=(git git-flow)
-plugins+=(zsh-autosuggestions)
-plugins+=(asdf)
-
-# pyenv (asdf still uses pyenv under the hood)
-# set -gx PYTHON_BUILD_ARIA2_OPTS "-x 10 -k 1M" # Use aria2c when downloading
-
-source $ZSH/oh-my-zsh.sh
 
 ###########################################################
 ###### ssh-agent
@@ -182,7 +161,6 @@ agent_running || start_agent
 [[ -r ${AGENT_VARS_FILE} ]] && source ${AGENT_VARS_FILE}
 
 ###########################################################
-
 # Aliases
 alias vim="nvim"
 alias ls="exa --icons"
@@ -190,7 +168,10 @@ alias ls="exa --icons"
 alias python3='python'
 alias git="$HOME/.config/scripts/git-warning"
 
+###########################################################
 # Functions
+###########################################################
+
 cleankube () {
   if [ ! -z $1 ] 
   then
@@ -215,6 +196,7 @@ vpnlogs () {
 }
 
 
+#### create python venv using asdf direnv
 new_venv () {
   local python_version
   if [ ! -z $1 ] 
@@ -228,9 +210,30 @@ new_venv () {
 }
 
 
-# Use new gcloud authentication with kubectl
-export USE_GKE_GCLOUD_AUTH_PLUGIN=True
+# # To start k3s with everything contained in a single folder
+# startk3s () {
+#   # configured to keep all its data in one folder
+#   sudo $HOME/bin/k3s server  \
+#   --data-dir  $HOME/k3s \
+#   --config $HOME/k3s/config.yaml \
+#   --disable traefik \
+#   --write-kubeconfig $HOME/k3s/k3s-local.yaml
 
-# ASDF plugins
-source "${XDG_CONFIG_HOME:-$HOME/.config}/asdf-direnv/zshrc"
+# }
+
+# bootstrapk3s () {
+#   # replace cluster name in config
+#   while [[ $(grep -F "default" ~/k3s/k3s-local.yaml) ]] && [[ ! $(grep -F "k3s-local" ~/k3s/k3s-local.yaml) ]]
+#     do
+#       echo "Waiting for the local file to be updated ..."
+#       sed -i 's/default/k3s-local/g' $HOME/k3s/k3s-local.yaml
+#       sleep 1
+#     done
+
+#   echo "Switching context"
+#   kubectl config use-context k3s-local
+
+#   echo "Installing/Updating nginx ingress controller"
+#   helm upgrade nginx nginx-stable/nginx-ingress --namespace ingress --create-namespace --install
+# }
 
