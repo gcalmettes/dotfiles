@@ -1,0 +1,17 @@
+## To be cloned in this repo:
+
+# latest git completion
+curl -o ~/.zsh/_git https://sourceforge.net/p/zsh/code/ci/master/tree/Completion/Unix/Command/_git
+
+# git flow completion
+git clone https://github.com/bobthecow/git-flow-completion ~/.zsh/git-flow-completion
+
+# zsh auto-suggestions
+git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions
+
+# zsh completions
+git clone https://github.com/zsh-users/zsh-completions.git ~/.zsh/zsh-completions
+
+# zsh syntax highligthing
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.zsh/zsh-syntax-highlighting
+

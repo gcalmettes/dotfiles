@@ -1,102 +1,29 @@
+###################################
+### PATH
+###################################
+
 # If you come from bash you might have to change your $PATH.
 export PATH=$HOME/bin:/usr/local/bin:$PATH
-
 # For locally built packages
 export PATH=$HOME/.local/bin:$PATH
-
 # For local bin packages (app images, etc ..)
 export PATH=$HOME/bin:$PATH
-
 # For cargo
 export PATH=$HOME/.cargo/bin:$PATH
-
-# Path to your oh-my-zsh installation.
-export ZSH="$HOME/.oh-my-zsh"
-
-# Go setup
-export GOROOT=/usr/local/go
-export GOPATH=$HOME/go
-export GOBIN=$GOPATH/bin
-export PATH=$GOBIN:$GOROOT/bin:$PATH
-
-export PATH="$PATH:/opt/mssql-tools/bin"
-
 # Poetry setup
 export PATH="$HOME/.poetry/bin:$PATH"
 
-# Kubernetes
-KUBECONFIG=${KUBECONFIG:+$KUBECONFIG:}
-for config_file in \
-  'config' \
-  'config-k3s-internal-2' \
-  'config-k3s-internal-3' \
-  'config-k3s-local' \
-  'config-dss-ams';
-do
-  KUBECONFIG=${KUBECONFIG:+$KUBECONFIG:}$HOME/.kube/$config_file
-done
-export KUBECONFIG=$KUBECONFIG
 
-# Use new gcloud authentication with kubectl
-export USE_GKE_GCLOUD_AUTH_PLUGIN=True
+###################################
+### USER PROMPT CONFIGURATION
+###################################
 
-# Silent direnv
-export DIRENV_LOG_FORMAT=""
-
-# Git-cu (https://gitlab.com/3point2/git-cu)
-export GIT_CU_DIR=$HOME/git
-
-# for nerdctl
-# nerdctl uses ${DOCKER_CONFIG}/config.json for the authentication with image registries.
-export DOCKER_CONFIG=$HOME/.docker
-
-# Set default editor to nvim
-export EDITOR='nvim'
-
-# Enabled true color support for terminals
-export NVIM_TUI_ENABLE_TRUE_COLOR=1
-
-# https://github.com/emersion/xdg-desktop-portal-wlr/wiki/%22It-doesn't-work%22-Troubleshooting-Checklist
-# It's also a good idea to define XDG_CURRENT_DESKTOP=$compositor_name in the shell that you used to start
-# your compositor, because some applications also benefit from having the env var set
-export XDG_CURRENT_DESKTOP=sway
-
-# Source bash completion
-autoload -U bashcompinit
-bashcompinit
-
-# Activate completion for stern (https://github.com/stern/stern)
-source <(stern --completion=zsh)
-
-# User configuration
+#### Display
 # Hide user@hostname if it's expected default user
 DEFAULT_USER="gcalmettes"
 prompt_context(){}
 
-# Set name of the theme to load --- if set to "random", it will
-# load a random theme each time oh-my-zsh is loaded, in which case,
-# to know which specific one was loaded, run: echo $RANDOM_THEME
-# See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="" # we use starship instead
-
-# ZSH plugins
-plugins=(kubectl)
-plugins+=(git git-flow)
-plugins+=(zsh-autosuggestions)
-plugins+=(asdf)
-
-source $ZSH/oh-my-zsh.sh
-
-eval "$(starship init zsh)"
-
-
-# ASDF plugins
-source "${XDG_CONFIG_HOME:-$HOME/.config}/asdf-direnv/zshrc"
-
-#
-##############################################################################
-# History Configuration
-##############################################################################
+#### History configuration
 HISTSIZE=5000                 # How many lines of history to keep in memory
 HISTFILE=~/.zsh_history       # Where to save history to disk
 SAVEHIST=5000                 # Number of history entries to save to disk
@@ -110,19 +37,161 @@ setopt hist_ignore_space      # ignore commands that start with space
 setopt hist_verify            # show command with history expansion to user before running it
 
 
-# Uncomment the following line to display red dots whilst waiting for completion.
-COMPLETION_WAITING_DOTS="true"
+###################################
+### CONFIGURATION ENV VARS
+###################################
 
-# Uncomment the following line if you want to disable marking untracked files
-# under VCS as dirty. This makes repository status check for large repositories
-# much, much faster.
-DISABLE_UNTRACKED_FILES_DIRTY="true"
+# Set default editor to nvim
+export EDITOR='nvim'
+# Enabled true color support for terminals
+export NVIM_TUI_ENABLE_TRUE_COLOR=1
+# https://github.com/emersion/xdg-desktop-portal-wlr/wiki/%22It-doesn't-work%22-Troubleshooting-Checklist
+# It's also a good idea to define XDG_CURRENT_DESKTOP=$compositor_name in the shell that you used to start
+# your compositor, because some applications also benefit from having the env var set
+export XDG_CURRENT_DESKTOP=sway
+# All go downloaded go assets in this folder
+export GOPATH=$HOME/go
+# Merge kubeconfig with local files
+KUBECONFIG=${KUBECONFIG:+$KUBECONFIG:}
+for config_file in \
+  'config' \
+  'config-k3s-internal-2' \
+  'config-k3s-internal-3' \
+  'config-k3s-local' \
+  'config-dss-ams';
+do
+  KUBECONFIG=${KUBECONFIG:+$KUBECONFIG:}$HOME/.kube/$config_file
+done
+export KUBECONFIG=$KUBECONFIG
+# Use new gcloud authentication with kubectl
+export USE_GKE_GCLOUD_AUTH_PLUGIN=True
+# Silent direnv logs when cding into folders
+export DIRENV_LOG_FORMAT=""
+# Git-cu base directory (https://gitlab.com/3point2/git-cu)
+export GIT_CU_DIR=$HOME/git
+# For nerdctl
+# nerdctl uses ${DOCKER_CONFIG}/config.json for the authentication with image registries.
+export DOCKER_CONFIG=$HOME/.docker
 
 
+###################################
+### ZSH CONFIGURATION
+###################################
 
-###########################################################
-###### ssh-agent
-###########################################################
+#### Add plugins completions to fpath
+
+# Source bash completion
+autoload -U bashcompinit
+bashcompinit
+
+# zsh completions
+fpath=($HOME/.zsh/zsh-completions/src $fpath)
+# git completion (_git file)
+fpath=($HOME/.zsh $fpath)
+# asdf append completions to fpath
+fpath=(${ASDF_DIR}/completions $fpath)
+# initialise completions for the current session
+autoload -Uz compinit && compinit
+
+#### Completion options https://thevaluable.dev/zsh-completion-guide-examples/
+
+# Colorize completions using default `ls` colors, and color in red maching characters in partial search.
+# red foreground code: 31, background cursor code black (00)
+zstyle -e ':completion:*:default' list-colors 'reply=("${PREFIX:+=(#bi)($PREFIX:t)(?)*==31=00}:${(s.:.)LS_COLORS}")';
+zstyle ':completion:*' menu yes=long select
+
+# use vim binding to navigate in the completion menu
+zmodload zsh/complist
+bindkey -M menuselect 'h' vi-backward-char
+bindkey -M menuselect 'k' vi-up-line-or-history
+bindkey -M menuselect 'l' vi-forward-char
+bindkey -M menuselect 'j' vi-down-line-or-history
+
+# can use SHIFT-TAB to navigate backward on completion suggestions
+bindkey '^[[Z' reverse-menu-complete
+
+#### kubectl completion
+source <(kubectl completion zsh)
+
+#### stern completion (https://github.com/stern/stern)
+source <(stern --completion=zsh)
+
+#### Plugins
+
+# load asdf
+. "$HOME/.asdf/asdf.sh"
+# load asdf-direnv
+source "${XDG_CONFIG_HOME:-$HOME/.config}/asdf-direnv/zshrc"
+
+# zsh auto suggestions
+source "$HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh"
+
+# zsh highlightings
+source "$HOME/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+# activate brackets en pattern highlighters in addition to main
+ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern)
+# initialize highlight patterns definitions
+typeset -A ZSH_HIGHLIGHT_PATTERNS
+# red background for commands starting with `rm -rf`
+ZSH_HIGHLIGHT_PATTERNS+=('rm -rf *' 'fg=white,bold,bg=red')
+
+# load starship as prompt
+eval "$(starship init zsh)"
+
+
+###################################
+### ALIASES
+###################################
+
+alias vim="nvim"
+alias ls="exa --icons"
+# alias docker="nerdctl"
+alias python3='python'
+# # warning, this will screw up git completion
+# alias git="$HOME/.config/scripts/git-warning"
+
+
+###################################
+### CUSTOM FUNCTIONS
+###################################
+
+cleankube () {
+  if [ ! -z $1 ] 
+  then
+      export STATUS=$1
+  else
+      export STATUS="completed|error|evicted|crashloop"
+  fi
+  echo $(kubectl get ns | grep -v NAME | awk '{printf "%s\\n",$1}') | xargs -t -I % sh -c 'kubectl delete pod -n %  $(kubectl get pod -n % |  grep -i -E "$STATUS" | awk '"'"'{print $1}'"'"') || printf "\n***************\n** Namespace % clean\n***************\n\n"'
+}
+
+#### VPN utils
+vpnstart () {
+ openvpn3 session-start -c $HOME/.config/openvpn/FRL207_gcalmettes@idmog.openvpn.com.ovpn
+}
+
+vpnstop () {
+ sudo pkill openvpn3
+}
+
+vpnlogs () {
+ openvpn3 log -c $HOME/.config/openvpn/FRL207_gcalmettes@idmog.openvpn.com.ovpn
+}
+
+#### create python venv using asdf direnv
+venv () {
+  local python_version
+  if [ ! -z $1 ] 
+  then
+      python_version=$1
+  else
+    python_version=$(asdf current python | awk '{print $2}')
+  fi
+ asdf direnv local python $python_version
+ echo "layout python" >> .envrc
+}
+
+#### Properly setup ssh-agent and load keys in it
 # requires sudo apt install ssh-askpass
 # Maintain a persistent ssh-agent across multiple
 # invocations of your shell when the parent process launching them
@@ -160,56 +229,8 @@ agent_running() {
 agent_running || start_agent
 [[ -r ${AGENT_VARS_FILE} ]] && source ${AGENT_VARS_FILE}
 
-###########################################################
-# Aliases
-alias vim="nvim"
-alias ls="exa --icons"
-# alias docker="nerdctl"
-alias python3='python'
-alias git="$HOME/.config/scripts/git-warning"
 
-###########################################################
-# Functions
-###########################################################
-
-cleankube () {
-  if [ ! -z $1 ] 
-  then
-      export STATUS=$1
-  else
-      export STATUS="completed|error|evicted|crashloop"
-  fi
-  echo $(kubectl get ns | grep -v NAME | awk '{printf "%s\\n",$1}') | xargs -t -I % sh -c 'kubectl delete pod -n %  $(kubectl get pod -n % |  grep -i -E "$STATUS" | awk '"'"'{print $1}'"'"') || printf "\n***************\n** Namespace % clean\n***************\n\n"'
-}
-
-#### VPN utils ####
-vpnstart () {
- openvpn3 session-start -c $HOME/.config/openvpn/FRL207_gcalmettes@idmog.openvpn.com.ovpn
-}
-
-vpnstop () {
- sudo pkill openvpn3
-}
-
-vpnlogs () {
- openvpn3 log -c $HOME/.config/openvpn/FRL207_gcalmettes@idmog.openvpn.com.ovpn
-}
-
-
-#### create python venv using asdf direnv
-new_venv () {
-  local python_version
-  if [ ! -z $1 ] 
-  then
-      python_version=$1
-  else
-    python_version=$(asdf current python | awk '{print $2}')
-  fi
- asdf direnv local python $python_version
- echo "layout python" >> .envrc
-}
-
-
+#### k3s/k3d
 # # To start k3s with everything contained in a single folder
 # startk3s () {
 #   # configured to keep all its data in one folder
@@ -237,3 +258,13 @@ new_venv () {
 #   helm upgrade nginx nginx-stable/nginx-ingress --namespace ingress --create-namespace --install
 # }
 
+
+# If want to lazy load kubectl completion instead of loading it for every prompt
+# kubectl () {
+#     command kubectl $*
+#     if [[ -z $KUBECTL_COMPLETE ]]
+#     then
+#         source <(command kubectl completion zsh)
+#         KUBECTL_COMPLETE=1 
+#     fi
+# }
