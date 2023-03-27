@@ -164,7 +164,7 @@ cleankube () {
   then
       export STATUS=$1
   else
-      export STATUS="completed|error|evicted|crashloop"
+      export STATUS="completed|error|evicted|crashloop|OOMkilled|Unknown|Terminated"
   fi
   echo $(kubectl get ns | grep -v NAME | awk '{printf "%s\\n",$1}') | xargs -t -I % sh -c 'kubectl delete pod -n %  $(kubectl get pod -n % |  grep -i -E "$STATUS" | awk '"'"'{print $1}'"'"') || printf "\n***************\n** Namespace % clean\n***************\n\n"'
 }
