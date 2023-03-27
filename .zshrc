@@ -149,6 +149,10 @@ alias ls="exa --icons"
 alias python3='python'
 # # warning, this will screw up git completion
 # alias git="$HOME/.config/scripts/git-warning"
+alias top="btm" # cargo install bottom
+alias htop="btm"
+alias du="dust" # cargo install du-dust
+alias cat="bat"
 
 
 ###################################
