@@ -110,12 +110,6 @@ bindkey -M menuselect 'j' vi-down-line-or-history
 # can use SHIFT-TAB to navigate backward on completion suggestions
 bindkey '^[[Z' reverse-menu-complete
 
-#### kubectl completion
-source <(kubectl completion zsh)
-
-#### stern completion (https://github.com/stern/stern)
-source <(stern --completion=zsh)
-
 #### Plugins
 
 # load asdf
@@ -133,7 +127,7 @@ ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern)
 # initialize highlight patterns definitions
 typeset -A ZSH_HIGHLIGHT_PATTERNS
 # red background for commands starting with `rm -rf`
-ZSH_HIGHLIGHT_PATTERNS+=('rm -rf *' 'fg=white,bold,bg=red')
+ZSH_HIGHLIGHT_PATTERNS+=('rm -rf*' 'fg=white,bold,bg=red')
 
 # load starship as prompt
 eval "$(starship init zsh)"
@@ -154,6 +148,35 @@ alias htop="btm"
 alias du="dust" # cargo install du-dust
 alias cat="bat"
 
+
+###################################
+### LAZY LOADING OF COMPLETION
+###################################
+# see https://frederic-hemberger.de/notes/shell/speed-up-initial-zsh-startup-with-lazy-loading/
+
+#### kubectl
+# Lazy loading Check if 'kubectl' is a command in $PATH
+if [ $commands[kubectl] ]; then
+  # Placeholder 'kubectl' shell function:
+  # Will only be executed on the first call to 'kubectl'
+  kubectl() {
+    # Remove this function, subsequent calls will execute 'kubectl' directly
+    unfunction "$0"
+    # Load auto-completion
+    source <(kubectl completion zsh)
+    # Execute 'kubectl' binary
+    $0 "$@"
+  }
+fi
+
+#### stern
+if [ $commands[stern] ]; then
+  stern() {
+    unfunction "$0"
+    source <(stern --completion=zsh)
+    $0 "$@"
+  }
+fi
 
 ###################################
 ### CUSTOM FUNCTIONS
@@ -262,13 +285,3 @@ agent_running || start_agent
 #   helm upgrade nginx nginx-stable/nginx-ingress --namespace ingress --create-namespace --install
 # }
 
-
-# If want to lazy load kubectl completion instead of loading it for every prompt
-# kubectl () {
-#     command kubectl $*
-#     if [[ -z $KUBECTL_COMPLETE ]]
-#     then
-#         source <(command kubectl completion zsh)
-#         KUBECTL_COMPLETE=1 
-#     fi
-# }
