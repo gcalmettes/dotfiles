@@ -102,5 +102,15 @@ format = 'via [${symbol}(${version})]($style) [(\($virtualenv\)) ](gray)'
 
 [kubernetes]
 disabled = false
-format = '[\[$symbol$context( \($namespace\))\]]($style)'
+format = '[\[$symbol$context( \($namespace\))\] ]($style)'
 
+[sudo]
+disabled = false
+style = "bold green"
+symbol = "💪"
+format = "[<SUDO>$symbol]($style)"
+
+[gcloud]
+# No need for domain right now as only one possible right now
+format = 'on [$symbol$account(\($project\))]($style) '
+# format = 'on [$symbol$account(@$domain)(\($project\))]($style) '
