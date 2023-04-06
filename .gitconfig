@@ -16,3 +16,9 @@
 
 [diff]
   colorMoved = default
+
+[commit]
+  gpgsign = true
+
+[tag]
+  gpgsign = true
