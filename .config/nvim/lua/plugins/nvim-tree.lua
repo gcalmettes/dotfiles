@@ -9,8 +9,6 @@ g.nvim_tree_refresh_wait = 500 -- 1000 by default, control how often the tree ca
 require('nvim-tree').setup {
   disable_netrw       = false, -- disables netrw
   hijack_netrw        = false, -- prevents netrw from automatically opening when opening directories (but lets you keep its other utilities)
-  open_on_setup       = false, -- opens the tree when typing `vim $DIR` or `vim`
-  ignore_ft_on_setup  = {},
   open_on_tab         = false, -- will open the tree when entering a new tab and the tree was previously open
   hijack_cursor       = false, -- when moving cursor in the tree, will position the cursor at the start of the file on the current line
   update_cwd          = false, -- will update the tree cwd when changing nvim's directory (DirChanged event). Behaves strangely with autochdir set.
