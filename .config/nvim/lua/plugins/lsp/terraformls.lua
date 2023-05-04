@@ -29,7 +29,7 @@ vim.api.nvim_create_autocmd("BufLeave", {
 vim.api.nvim_create_autocmd("BufWritePre", {
     pattern = {"*.tf", "*.tfvars"},
     callback = function(args)
-        vim.lsp.buf.formatting_sync()
+        vim.lsp.buf.format({async=false})
     end,
     desc = "Format terraform files",
 })

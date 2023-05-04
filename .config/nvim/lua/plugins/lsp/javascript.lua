@@ -11,6 +11,9 @@ local is_using_eslint = function(_, _, result, client_id)
   return vim.lsp.handlers["textDocument/publishDiagnostics"](_, _, result, client_id)
 end
 
+local opts = {
+}
+
 M.config = {
     filetypes = { "javascript", "typescript", "typescriptreact" },
     on_attach = function(client)
@@ -28,6 +31,10 @@ M.config = {
       ["textDocument/publishDiagnostics"] = is_using_eslint,
     },
     root_dir = vim.loop.cwd,
+  override_client_setup = function(server_opts)
+    opts.server = server_opts or {}
+    require('lspconfig').tsserver.setup(opts)
+  end,
 }
 
 return M
