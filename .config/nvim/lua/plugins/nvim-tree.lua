@@ -44,17 +44,13 @@ require('nvim-tree').setup {
   },
   view = {
     width = 35, -- 30 by default, can be width_in_columns or 'width_in_percent%'
-    hide_root_folder = false,
     side = 'left',
-    mappings = {
-      custom_only = false,
-      list = {}
-    }
   },
   renderer = {
     group_empty = true, -- compact folders that only contain a single folder into one node in the file tree
     highlight_opened_files = "icon", -- "none" by default, will enable folder and file icon highlight for opened files/directories.
     root_folder_modifier = ':~', -- This is the default. See :help filename-modifiers for more options
+    root_folder_label = false, -- hide root folder
     add_trailing = false, -- append a trailing slash to folder names
     highlight_git = false, -- this will enable file highlight for git attributes (can be used without the icons).
     indent_markers = {
