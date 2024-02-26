@@ -88,6 +88,8 @@ local plugins = {
   },
   {'simrat39/rust-tools.nvim'},
   {"hashivim/vim-terraform"},
+  {'fatih/vim-go'},
+
 
   -- Autocompletion framework
   {

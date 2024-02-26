@@ -20,8 +20,8 @@ end
 vim.api.nvim_create_autocmd("BufWritePre", {
     pattern = "*.go",
     callback = function(args)
-        vim.lsp.buf.formatting_sync()
         organize_goimports(1000)
+        vim.lsp.buf.format({async = false})
     end,
     desc = "Format Go files",
 })
@@ -81,8 +81,9 @@ M.config = {
       analyses = {
         unusedparams = true,
         shadow = true,
-    },
-    staticcheck = true,
+      },
+      staticcheck = true,
+      gofumpt = true,
     },
   },
 }
