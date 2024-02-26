@@ -37,7 +37,8 @@ input * repeat_delay 300
 input * repeat_rate 50
 input * xkb_layout fr
 
-output * bg ~/.config/sway/wallpapers/colorful-triangles-background.jpg fill
+# output * bg ~/.config/sway/wallpapers/colorful-triangles-background.jpg fill
+output * bg ~/.config/sway/wallpapers/milkyway.png fill
 
 # Select monitor
 focus left
@@ -388,8 +389,8 @@ input type:touchpad {
 # Displays
 ###############################################################################
 
-output eDP-1 pos 0 0
-output HDMI-A-2 pos 1920 0
+# output eDP-1 pos 0 0
+# output HDMI-A-2 pos 1920 0
 
 ###############################################################################
 # Extra
