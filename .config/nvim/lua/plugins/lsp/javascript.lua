@@ -1,13 +1,11 @@
 local M = {}
 
-local is_cfg_present = require("utils").is_cfg_present
-
 -- use eslint if the eslint config file present
 local is_using_eslint = function(_, _, result, client_id)
-  if is_cfg_present("/.eslintrc.json") or is_cfg_present("/.eslintrc.js") then
+  local u = require("utils")
+  if u.is_file_present("/.eslintrc.json") or u.is_file_present("/.eslintrc.js") then
     return
   end
-
   return vim.lsp.handlers["textDocument/publishDiagnostics"](_, _, result, client_id)
 end
 

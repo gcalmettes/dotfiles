@@ -1,14 +1,6 @@
 local map = vim.keymap.set
 local telescope = require "telescope.builtin"
 
--- Set updatetime for CursorHold
--- 300ms of no cursor movement to trigger CursorHold
-vim.opt.updatetime = 300
-
--- have a fixed column for the diagnostics to appear in
--- this removes the jitter when warnings/errors flow in
-vim.wo.signcolumn = "yes"
-
 local diagnostic_opts = {
   focusable = false,
 
@@ -50,13 +42,18 @@ vim.api.nvim_create_autocmd("CursorHold", {
 local M = {}
 
 M.lsp_mappings = function(bufnr)
-  map("i", "<C-s>", vim.lsp.buf.signature_help, {
+  map("i", "<Leader>k", vim.lsp.buf.signature_help, {
+    desc = "Trigger signature help from the language server",
+    silent = true,
+  })
+
+  map("n", "<C-k>", vim.lsp.buf.signature_help, {
     desc = "Trigger signature help from the language server",
     silent = true,
   })
 
   map("n", "K", vim.lsp.buf.hover, {
-    desc = "Trigger hover window from the language server",
+    desc = "Display documentation of the symbol under the cursor",
     silent = true,
   })
 

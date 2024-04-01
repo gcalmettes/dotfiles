@@ -1,17 +1,8 @@
-local cmd = vim.cmd
-local g = vim.g
+require("settings")
 
-cmd [[packadd packer.nvim]]
+require("bootstrap_lazy")
+require("dependencies")
 
--- Map leader to comma
-g.mapleader = ','
-
--- Sensible defaults
-require('settings')
-
--- Key mappings
-require('keymappings')
-
--- Plugins
-require('plugins')
+require("keymaps")
+require("commands")
 

@@ -1,46 +1,58 @@
-local M = {}
+return {
+  {
+    "nvim-treesitter/nvim-treesitter",
+    version = false,
+    build = ":TSUpdate",
+    event = { "BufReadPost", "BufNewFile" },
+    opts = {
+      ensure_installed = {
+        "bash",
+        "c",
+        "cmake",
+        "comment",
+        "cpp",
+        "css",
+        "dockerfile",
+        "go",
+        "gomod",
+        "gowork",
+        "gosum",
+        "hcl",
+        "html",
+        "javascript",
+        "jsdoc",
+        "json",
+        "jsonc",
+        "markdown",
+        "latex",
+        "lua",
+        "python",
+        "query",
+        "regex",
+        "rst",
+        "rust",
+        "scss",
+        "terraform",
+        "toml",
+        "tsx",
+        "typescript",
+        "yaml"
+      },
 
-M.plugin = {
-  "nvim-treesitter/nvim-treesitter",
-  run = ':TSUpdate',
-  config = function()
-    require("plugins.treesitter").config()
-  end,
-}
+      highlight = { enable = true },
+      indent = { enable = false },
+      matchup = { enable = true },
+      -- require https://github.com/windwp/nvim-ts-autotag
+      autotag = { enable = true },
 
-M.config = function()
-  local ts_config = require("nvim-treesitter.configs");
+      context_commentstring = {
+        enable = true,
+       enable_autocmd = false,
+      },
 
-  ts_config.setup {
-    ensure_installed = {
-      "python",
-      "go",
-      "rust",
-      "javascript",
-      "bash",
-      "html",
-      "css",
-      "scss",
-      "yaml",
-      "toml",
-      "json",
-      "rst",
-      "regex",
-      "lua",
-      "latex",
-      "dockerfile",
-      "cmake",
-      "tsx",
-      "comment",
-      "query",
-      "hcl", -- terraform
-      "terraform",
     },
-    matchup = { enable = true },
-    highlight = { enable = true },
-    indent = { enable = false }, -- wait until it's back to normal
+    config = function(_, opts)
+      require("nvim-treesitter.configs").setup(opts)
+    end
   }
-
-end
-
-return M
+}
