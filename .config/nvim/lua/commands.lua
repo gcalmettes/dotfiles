@@ -4,6 +4,12 @@
 --
 -------------------------------------------------------------------------------
 
+-- Add transparency support for NeoVim
+vim.api.nvim_command('au VimEnter * hi Normal guibg=NONE ctermbg=NONE')
+vim.api.nvim_command('au VimEnter * hi LineNr guibg=NONE ctermbg=NONE')
+vim.api.nvim_command('au VimEnter * hi SignColumn guibg=NONE ctermbg=NONE')
+vim.api.nvim_command('au VimEnter * hi EndOfBuffer guibg=NONE ctermbg=NONE')
+
 -- highlight yanked text
 vim.api.nvim_create_autocmd(
   'TextYankPost',
