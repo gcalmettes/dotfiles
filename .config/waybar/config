@@ -31,12 +31,12 @@
         "pulseaudio",
         //"wireplumber",
         "network",
-        "bluetooth",
         "memory",
         "cpu",
         "temperature",
         //"custom/keyboard-layout",
         "battery",
+        "bluetooth",
         "tray",
         "clock#date",
         "clock#time"
