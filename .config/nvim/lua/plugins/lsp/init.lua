@@ -18,6 +18,7 @@ local servers = {
   tsserver = require("plugins.lsp.javascript").config,
   html = {},
   jsonls = require("plugins.lsp.json").config,
+  bashls = {},
   cssls = {},
   rust_analyzer = require("plugins.lsp.rust").config,
   pyright = require("plugins.lsp.pyright").config,

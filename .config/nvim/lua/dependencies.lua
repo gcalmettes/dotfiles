@@ -7,7 +7,7 @@ require("lazy").setup("plugins", {
       disabled_plugins = {
         "gzip",
         "matchit",
-        "matchparen",
+        -- "matchparen",
         -- "netrwPlugin",
         "tarPlugin",
         "tohtml",

@@ -38,6 +38,10 @@ map('n', '<C-l>', '<cmd>noh<CR>', {
   desc = "Clear highlights",
 })
 
+map('n', '<leader>d', '"_d', {
+  desc = "Delete and send to the black hole register",
+})
+
 -- Somehow, it's already on
 --map('n', '<leader>nn', ':NvimTreeToggle<CR>`')
 
