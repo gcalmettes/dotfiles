@@ -40,7 +40,7 @@ return {
       },
 
       highlight = { enable = true },
-      indent = { enable = false },
+      indent = { enable = true },
       matchup = { enable = true },
       -- require https://github.com/windwp/nvim-ts-autotag
       autotag = { enable = true },
