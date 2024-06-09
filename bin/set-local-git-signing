@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+public_keys=$(find ~/.ssh -name '*.pub' | awk -F/ 'BEGIN { ORS=" " }; {print $NF}')
+
+PS3="Choose the ssh key to be configured for this repo: "
+select key in ${public_keys}; do
+  [ -z "$key" ] && echo "This is not a valid choice" && break 2
+  break
+done
+
+key_file=$(find ~/.ssh -name "${key}")
+key_file_content=$(cat $key_file)
+
+git config --local user.signingkey "$key_file_content"
+
+echo "$key set locally as signingkey for this repository!"
