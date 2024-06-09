@@ -35,20 +35,20 @@ set $menu ulauncher --no-window-shadow | xargs swaymsg exec --
 input * repeat_delay 300
 input * repeat_rate 50
 
-# QWERTY
-# input type:keyboard {
-#   xkb_layout us
-#   xkb_variant intl
-#   xkb_numlock enabled # enable numlock when logging in
-# }
-input * xkb_layout us
-# right ctrl as compose key
-input * xkb_options compose:rctrl
-# input * xkb_options compose:ralt
+# # QWERTY
+# # input type:keyboard {
+# #   xkb_layout us
+# #   xkb_variant intl
+# #   xkb_numlock enabled # enable numlock when logging in
+# # }
+# input * xkb_layout us
+# # right ctrl as compose key
+# input * xkb_options compose:rctrl
+# # input * xkb_options compose:ralt
 
 
-# # AZERTY
-# input * xkb_layout fr
+# AZERTY
+input * xkb_layout fr
 
 # output * bg ~/.config/sway/wallpapers/colorful-triangles-background.jpg fill
 output * bg ~/.config/sway/wallpapers/milkyway.png fill
@@ -66,6 +66,9 @@ floating_modifier $mod normal
 
 # Launch // Terminal // <> Enter ##
 bindsym $mod+Return exec $term
+
+# Launch // Terminal in directory of currently focused windows, if any // <><Ctrl> Enter ##
+bindsym $mod+Ctrl+Return exec ~/bin/run-cwd $term
 
 ## Launch // Browser // <><Shift> Enter ##
 bindsym $mod+Shift+Return exec gtk-launch $(xdg-settings get default-web-browser)
@@ -117,29 +120,29 @@ set $ws19  "19"
 # These are the keys which will be used while binding workspace switching
 ###############################################################################
 
-# QWERTY
-set $ws1_key   1
-set $ws2_key   2
-set $ws3_key   3
-set $ws4_key   4
-set $ws5_key   5
-set $ws6_key   6
-set $ws7_key   7
-set $ws8_key   8
-set $ws9_key   9
-set $ws10_key  0
+# # QWERTY
+# set $ws1_key   1
+# set $ws2_key   2
+# set $ws3_key   3
+# set $ws4_key   4
+# set $ws5_key   5
+# set $ws6_key   6
+# set $ws7_key   7
+# set $ws8_key   8
+# set $ws9_key   9
+# set $ws10_key  0
 
-# # French AZERTY
-# set $ws1_key   ampersand
-# set $ws2_key   eacute
-# set $ws3_key   quotedbl
-# set $ws4_key   apostrophe
-# set $ws5_key   parenleft
-# set $ws6_key   minus
-# set $ws7_key   egrave
-# set $ws8_key   underscore
-# set $ws9_key   ccedilla
-# set $ws10_key  agrave
+# French AZERTY
+set $ws1_key   ampersand
+set $ws2_key   eacute
+set $ws3_key   quotedbl
+set $ws4_key   apostrophe
+set $ws5_key   parenleft
+set $ws6_key   minus
+set $ws7_key   egrave
+set $ws8_key   underscore
+set $ws9_key   ccedilla
+set $ws10_key  agrave
 
 ###############################################################################
 # Workspace Keys
@@ -349,15 +352,15 @@ bindsym XF86KbdBrightnessDown exec brightnessctl -c backlight set 2%-
 
 # Screenshots & Video Shots
 
-# # AZERTY
-# bindsym Print exec "~/.config/scripts/screenshot-to-folder"
-# bindsym Shift+Print exec "~/.config/scripts/screenshot-to-clipboard"
-# bindsym $mod+Shift+Print exec "~/.config/scripts/video-to-file"
+# # QWERTY
+# bindsym F8 exec "~/.config/scripts/screenshot-to-folder"
+# bindsym Shift+F8 exec "~/.config/scripts/screenshot-to-clipboard"
+# bindsym $mod+Shift+F8 exec "~/.config/scripts/video-to-file"
 
-# QWERTY
-bindsym F8 exec "~/.config/scripts/screenshot-to-folder"
-bindsym Shift+F8 exec "~/.config/scripts/screenshot-to-clipboard"
-bindsym $mod+Shift+F8 exec "~/.config/scripts/video-to-file"
+# AZERTY
+bindsym Print exec "~/.config/scripts/screenshot-to-folder"
+bindsym Shift+Print exec "~/.config/scripts/screenshot-to-clipboard"
+bindsym $mod+Shift+Print exec "~/.config/scripts/video-to-file"
 
 # Screenlocking
 bindsym $mod+z exec ~/.config/scripts/lock-screen

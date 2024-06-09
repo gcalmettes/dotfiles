@@ -22,3 +22,8 @@ exec /usr/bin/nm-applet --indicator
 # Fix sway screensharing
 # https://github.com/emersion/xdg-desktop-portal-wlr/wiki/%22It-doesn't-work%22-Troubleshooting-Checklist
 exec ~/.config/scripts/fix-sway-screensharing
+
+# Add a polkit authentication agent for wayland
+# https://github.com/FedoraQt/MediaWriter/issues/223
+# need lxpolkit to be installed
+exec --no-startup-id lxpolkit
