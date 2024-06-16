@@ -1,7 +1,6 @@
 return {
   {
     "folke/trouble.nvim",
-    branch = "dev", -- IMPORTANT!
     event = { "BufReadPre", "BufNewFile" },
     keys = {
       {
