@@ -219,7 +219,7 @@ venv () {
 }
 
 #### Properly setup ssh-agent and load keys in it
-# requires sudo apt install ssh-askpass
+# requires sudo apt install ssh-askpass (debian) | sudo dnf install openssh-askpass (fedora)
 # Maintain a persistent ssh-agent across multiple
 # invocations of your shell when the parent process launching them
 # does not set the necessary environment variables.
