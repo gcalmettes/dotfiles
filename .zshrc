@@ -137,8 +137,13 @@ eval "$(starship init zsh)"
 ### ALIASES
 ###################################
 
+# Use function so local completion works and we can add flags
+eza_with_icons() {
+  eza $1 --icons
+}
+
 alias vim="nvim"
-alias ls="exa --icons"
+alias ls="eza_with_icons"
 # alias docker="nerdctl"
 alias python3='python'
 # # warning, this will screw up git completion
