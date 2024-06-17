@@ -12,7 +12,9 @@ export PATH=$HOME/bin:$PATH
 export PATH=$HOME/.cargo/bin:$PATH
 # Poetry setup
 export PATH="$HOME/.poetry/bin:$PATH"
-
+# All go downloaded go assets in this folder
+export GOPATH=$HOME/go
+export PATH="$GOPATH/bin:$PATH"
 
 ###################################
 ### USER PROMPT CONFIGURATION
@@ -49,16 +51,17 @@ export NVIM_TUI_ENABLE_TRUE_COLOR=1
 # It's also a good idea to define XDG_CURRENT_DESKTOP=$compositor_name in the shell that you used to start
 # your compositor, because some applications also benefit from having the env var set
 export XDG_CURRENT_DESKTOP=sway
-# All go downloaded go assets in this folder
-export GOPATH=$HOME/go
 # Merge kubeconfig with local files
 KUBECONFIG=${KUBECONFIG:+$KUBECONFIG:}
 for config_file in \
   'config' \
-  'config-k3s-internal-2' \
+  'config-k3s-internal-dev' \
   'config-k3s-internal-3' \
   'config-k3s-local' \
-  'config-dss-ams';
+  'config-dss-ams' \
+  'config-cdiscount-reau' \
+  'config-cdiscount-cestas' \
+  'config-cdiscount-cloud';
 do
   KUBECONFIG=${KUBECONFIG:+$KUBECONFIG:}$HOME/.kube/$config_file
 done
@@ -152,6 +155,8 @@ alias top="btm" # cargo install bottom
 alias htop="btm"
 alias du="dust" # cargo install du-dust
 alias cat="bat"
+alias docker-compose="nerdctl compose"
+alias gitlog="git log --oneline --decorate --graph --all"
 
 
 ###################################
@@ -221,6 +226,14 @@ venv () {
   fi
  asdf direnv local python $python_version
  echo "layout python" >> .envrc
+ direnv allow
+}
+
+create_k3d () {
+  XDG_RUNTIME_DIR=${XDG_RUNTIME_DIR:-/run/user/$(id -u)}
+  export DOCKER_HOST=unix://$XDG_RUNTIME_DIR/podman/podman.sock
+  export DOCKER_SOCK=$XDG_RUNTIME_DIR/podman/podman.sock
+  k3d cluster create --config ~/k3d-local.config
 }
 
 #### Properly setup ssh-agent and load keys in it
