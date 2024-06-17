@@ -1,6 +1,0 @@
-#!/bin/bash
-readonly SCREENSHOTDIR="$HOME/Pictures/screenshots"
-
-if [[ ! -e "$SCREENSHOTDIR" ]]; then
-  mkdir -p "$SCREENSHOTDIR"
-fi
