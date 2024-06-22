@@ -1,10 +1,27 @@
+# Set colors
+
+# Original
+# set $bg  #464646
+# set $bu  #cb7073
+# set $fg  #93a1a1
+# set $fgi #eceff4
+# set $br  #0c0c0c
+# set $pr  #000000
+
+set $bg  #171717
+set $bu  #cb7073
+set $fg  #93a1a1
+set $fgi #eceff4
+set $br  #ffcc00
+set $pr  #000000
+
 # Window decoration
 # class                 border  backgr. text    indicator child_border
-client.focused          #002b36 #002b36 #93a1a1 #464646   #002b36
-client.focused_inactive #464646 #464646 #eceff4 #464646   #464646
-client.unfocused        #464646 #464646 #eceff4 #464646   #464646
-client.urgent           #cb7073 #cb7073 #eceff4 #cb7073   #cb7073
-client.placeholder      #000000 #0c0c0c #eceff4 #000000   #0c0c0c
+client.focused          $br     $br     $fg     $bg       $br
+client.focused_inactive $bg     $bg     $fgi    $bg       $bg
+client.unfocused        $bg     $bg     $fgi    $bg       $bg
+client.urgent           $bu     $bu     $fgi    $bu       $bu
+client.placeholder      $pr     $br     $fgi    $pr       $br
 
 # Font
 font pango:Source Code Pro Medium 11, Material Design Icons 11
@@ -14,11 +31,17 @@ for_window [shell="xdg_shell"] title_format "%title (%app_id)"
 for_window [shell="x_wayland"] title_format "%class - %title"
 
 # Borders
-default_border pixel 3
-default_floating_border pixel 3
+default_border pixel 1
+default_floating_border pixel 1
 
-# Additionally, you can issue commands with the following syntax. This is useful to bind keys to changing the gap size.
-#gaps outer 5
-#gaps inner 10
+# When there is only one window on the screen the borders are unnecessary.
+# This is normally how "maximized" windows are handled in most floating window desktops.
+# Smart border hiding does exactly that.
+hide_edge_borders smart
+
+# Additionally, you can issue commands with the following syntax.
+# This is useful to bind keys to changing the gap size.
+gaps inner 0
+gaps outer 0
 
 #smart_gaps on
