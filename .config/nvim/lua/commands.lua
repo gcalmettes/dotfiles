@@ -86,7 +86,7 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 vim.api.nvim_create_autocmd('LspAttach', {
   desc = 'LSP actions',
   callback = function(event)
-    local clients = vim.lsp.buf_get_clients()
+    local clients = vim.lsp.get_clients()
     if next(clients) == nil then
       return nil
     end
