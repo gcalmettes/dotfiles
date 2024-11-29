@@ -14,6 +14,8 @@ return {
         "css",
         "dockerfile",
         "go",
+        "gotmpl",
+        "helm",
         "gomod",
         "gowork",
         "gosum",

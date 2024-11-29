@@ -12,9 +12,13 @@ export PATH=$HOME/bin:$PATH
 export PATH=$HOME/.cargo/bin:$PATH
 # Poetry setup
 export PATH="$HOME/.poetry/bin:$PATH"
+# For golang
+export PATH=$PATH:/usr/local/go/bin
 # All go downloaded go assets in this folder
 export GOPATH=$HOME/go
 export PATH="$GOPATH/bin:$PATH"
+# For Krew
+export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 
 ###################################
 ### USER PROMPT CONFIGURATION
@@ -53,17 +57,9 @@ export NVIM_TUI_ENABLE_TRUE_COLOR=1
 export XDG_CURRENT_DESKTOP=sway
 # Merge kubeconfig with local files
 KUBECONFIG=${KUBECONFIG:+$KUBECONFIG:}
-for config_file in \
-  'config' \
-  'config-k3s-internal-dev' \
-  'config-k3s-internal-3' \
-  'config-k3s-local' \
-  'config-dss-ams' \
-  'config-cdiscount-reau' \
-  'config-cdiscount-cestas' \
-  'config-cdiscount-cloud';
+for config_file in ~/.kube/*.yaml;
 do
-  KUBECONFIG=${KUBECONFIG:+$KUBECONFIG:}$HOME/.kube/$config_file
+  KUBECONFIG=${KUBECONFIG:+$KUBECONFIG:}$config_file
 done
 export KUBECONFIG=$KUBECONFIG
 # Use new gcloud authentication with kubectl
@@ -76,6 +72,8 @@ export GIT_CU_DIR=$HOME/git
 # nerdctl uses ${DOCKER_CONFIG}/config.json for the authentication with image registries.
 export DOCKER_CONFIG=$HOME/.docker
 
+# fd integration with fzf (requires https://github.com/sharkdp/fd)
+export FZF_DEFAULT_COMMAND='fd --type file --follow --hidden --exclude .git'
 
 ###################################
 ### ZSH CONFIGURATION
@@ -87,10 +85,6 @@ export DOCKER_CONFIG=$HOME/.docker
 autoload -U bashcompinit
 bashcompinit
 
-# zsh completions
-fpath=($HOME/.zsh/zsh-completions/src $fpath)
-# git completion (_git file)
-fpath=($HOME/.zsh $fpath)
 # asdf append completions to fpath
 fpath=(${ASDF_DIR}/completions $fpath)
 # initialise completions for the current session
@@ -113,6 +107,7 @@ bindkey -M menuselect 'j' vi-down-line-or-history
 # can use SHIFT-TAB to navigate backward on completion suggestions
 bindkey '^[[Z' reverse-menu-complete
 
+
 #### Plugins
 
 # load asdf
@@ -121,10 +116,11 @@ bindkey '^[[Z' reverse-menu-complete
 source "${XDG_CONFIG_HOME:-$HOME/.config}/asdf-direnv/zshrc"
 
 # zsh auto suggestions
-source "$HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh"
+source "/usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
 
 # zsh highlightings
-source "$HOME/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+source "/usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+
 # activate brackets en pattern highlighters in addition to main
 ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern)
 # initialize highlight patterns definitions
@@ -145,18 +141,39 @@ eza_with_icons() {
   eza $1 --icons
 }
 
+# switch programs
 alias vim="nvim"
 alias ls="eza_with_icons"
 # alias docker="nerdctl"
 alias python3='python'
 # # warning, this will screw up git completion
-# alias git="$HOME/.config/scripts/git-warning"
+# alias git="/usr/local/bin/git-warning"
 alias top="btm" # cargo install bottom
 alias htop="btm"
 alias du="dust" # cargo install du-dust
 alias cat="bat"
-alias docker-compose="nerdctl compose"
 alias gitlog="git log --oneline --decorate --graph --all"
+
+# custom
+# "nvim open": select file to open with nvim using rofi/dmenu search
+alias nvo="fd | rofi -keep-right -dmenu -i -p FILES | xargs -I {} nvim {}"
+# "search file type": search among all files of targeted type on machine, using rofi/dmenu search, can multi select and open several
+alias sft="search_files_of_type"
+# "search pdf": search among all pdfs on machine, using rofi/dmenu search, can multi select and open several
+alias spdf="fd --type f -e pdf . $HOME | rofi -keep-right -dmenu -i -p FILES -multi-select | xargs -I {} xdg-open {}"
+#remove the 256-color escapes code in a text
+alias decolor="sed 's/\x1B\[[0-9;]\{1,\}[A-Za-z]//g'"
+# switch kube context using rofi dmenu selector
+alias kswitch="kube_context_switch"
+# remove all conceivable ANSI escape sequences
+# sed 's/\x1B[@A-Z\\\]^_]\|\x1B\[[0-9:;<=>?]*[-!"#$%&'"'"'()*+,.\/]*[][\\@A-Z^_`a-z{|}~]//g'
+#
+# alias regex="gawk 'match($0,/'$1'/, ary) {print ary['${2:-'0'}']}'"
+# function regex { gawk 'match($0,/'$1'/, ary) {print ary['${2:-'0'}']}'; }
+# function regex1 { gawk 'match($0,/'$1'/, ary) {print ary['${2:-'1'}']}'; }
+# function regex3 { gawk 'match($0,/'$1'/, ary) {print ary[1]","ary[2]","ary[3]}'; }
+
+function regexgenapi { gawk 'match($0,/\[([^\]]+).+(\/v1[^\s]+).+ORG:([0-9a-z{8}]+[^\]]+)\]\s\(prompt:([0-9]+)\s-\scomp:([0-9]+).*/, ary) {print ary[1]","ary[2]","ary[3]","ary[4]","ary[5]}'; }
 
 
 ###################################
@@ -191,6 +208,29 @@ fi
 ###################################
 ### CUSTOM FUNCTIONS
 ###################################
+
+
+search_files_of_type () {
+  filetype=$(rofi -dmenu -show run -theme-str 'listview { enabled: false;}' -p 'Search files with extension > ')
+  fd --type f -e $filetype . $HOME | rofi -keep-right -dmenu -i -p FILES -multi-select | xargs -I {} xdg-open {}
+}
+
+set_brightness () {
+  value=$(rofi -dmenu -show run -theme-str 'listview { enabled: false;}' -p 'Enter brightness to set (max 255) > ')
+  brightnessctl set $value
+}
+
+# switch kubecontext using rofi dmenu selector
+function kube_context_switch {
+  selected_context=$(kubectl config get-contexts | sed -E 's/^(\s)(.*)/.\2/' | awk '$0 !~ /none/ {print $1, $2, $3}' | column -t |  rofi -keep-right -dmenu -i -p "Kubernetes Contexts")
+  switch_to=$(echo "$selected_context" | awk '{print $2}')
+  kubectl config use-context "$switch_to"
+}
+
+cleanns () {
+  # search all pdf files using fd and rofi
+  kubectl get ns | awk '$0 !~ /NAME/ {print $1}' | rofi -keep-right -dmenu -i -p NAMESPACES -mesg "which namespace do you want to clean ?" -multi-select | xargs -I {} echo {}
+}
 
 cleankube () {
   if [ ! -z $1 ] 
@@ -302,4 +342,8 @@ agent_running || start_agent
 #   echo "Installing/Updating nginx ingress controller"
 #   helm upgrade nginx nginx-stable/nginx-ingress --namespace ingress --create-namespace --install
 # }
+
+
+# ensures ctrl-e and ctrl-a are end-of-line and beginning-of-line
+bindkey -e
 

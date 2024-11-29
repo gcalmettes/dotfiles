@@ -54,3 +54,17 @@ o.tabstop             = indent  -- Number of spaces tabs count for
 o.termguicolors       = true  -- true colours for better experience
 o.wildmode            = {'list', 'longest'} -- Command-line completion mode
 o.wrap                = false -- Disable line wrap
+-- use treesitter as source of truth for folding.
+o.foldmethod          = "expr"
+o.foldexpr            = "v:lua.vim.treesitter.foldexpr()"
+-- don't take up room with an extra column to display information on folds
+o.foldcolumn = "0"
+-- first line of the fold will be syntax highlighted, rather than all be one colour
+o.foldtext = ""
+
+-- don't fold all levels by default
+o.foldlevel = 99
+-- 2 top level folds are open, but anything nested beyond that is closed
+-- o.foldlevelstart = 2
+-- how deeply code gets folded,
+o.foldnestmax = 4

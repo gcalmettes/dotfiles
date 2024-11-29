@@ -1,56 +1,3 @@
-local borderchars = {
-  { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
-  prompt = { "─", "│", " ", "│", "┌", "┐", "│", "│" },
-  results = { "─", "│", "─", "│", "├", "┤", "┘", "└" },
-  preview = { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
-}
-
-local function no_preview(opts)
-  return vim.tbl_extend(
-    "force",
-    require("telescope.themes").get_dropdown {
-      borderchars = borderchars,
-      layout_config = {
-        width = 0.6,
-      },
-      previewer = false,
-    },
-    opts or {}
-  )
-end
-
-local function dropdown(opts)
-  return vim.tbl_extend(
-    "force",
-    require("telescope.themes").get_dropdown {
-      borderchars = borderchars,
-      layout_config = {
-        width = 0.6,
-      },
-    },
-    opts or {}
-  )
-end
-
-local function builtins()
-  require("telescope.builtin").builtin(no_preview())
-end
-
-local function workspace_symbols()
-  require("telescope.builtin").lsp_workspace_symbols {
-    path_display = { "absolute" },
-  }
-end
-
-local function grep_prompt()
-  require("telescope.builtin").grep_string {
-    path_display = { "shorten" },
-    search = vim.fn.input "Grep String > ",
-    only_sort_text = true,
-    use_regex = true,
-  }
-end
-
 return {
   {
     "princejoogie/dir-telescope.nvim",
@@ -58,6 +5,31 @@ return {
       "nvim-telescope/telescope.nvim"
     },
   },
+  -- {
+  --   "nvim-telescope/telescope-dap.nvim",
+  --   dependencies = {
+  --     "nvim-telescope/telescope.nvim"
+  --   },
+  -- },
+
+  -- -- patch of telescope-dap to support dap-nvim >0.8
+  -- -- requires 
+  -- -- see https://github.com/nvim-telescope/telescope-dap.nvim/pull/24
+  -- {
+  --   url = "https://github.com/cryptomilk/telescope-dap.nvim",
+  --   branch = "asn-fix",
+  --   dependencies = {
+  --     "nvim-telescope/telescope.nvim",
+  --     'nvim-telescope/telescope-ui-select.nvim',
+  --   },
+  -- },
+  -- {
+  --   'nvim-telescope/telescope-ui-select.nvim',
+  --   dependencies = {
+  --     "nvim-telescope/telescope.nvim"
+  --   },
+  -- },
+
   {
     "nvim-telescope/telescope.nvim",
     dependencies = {
@@ -185,6 +157,8 @@ return {
       local telescope = require("telescope")
       telescope.setup(opts)
       telescope.load_extension('fzf') -- Sorter using fzf algorithm
+      -- telescope.load_extension('dap') -- Debugger Adapter Protocol
+      -- telescope.load_extension("ui-select")
     end
   }
 }
