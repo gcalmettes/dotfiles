@@ -33,7 +33,8 @@
       "on-click": "activate",
       "format": "{icon}",
       "format-icons": {
-          "scratch": ""
+          "scratch": "",
+          "zzz": ""
       }
     },
     "keyboard-state": {
