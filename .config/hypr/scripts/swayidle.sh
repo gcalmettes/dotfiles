@@ -22,9 +22,11 @@
 
 lock_timeout=300
 screen_timeout=60
+suspend_timeout=900
 
 LT=${lock_timeout:-300}
 ST=${screen_timeout:-60}
+SS_T=${suspend_timeout:-900}
 
 swayidle -w \
     timeout $LT 'swaylock -f' \
@@ -32,6 +34,8 @@ swayidle -w \
                   resume 'hyprctl dispatch dpms on'  \
     timeout $ST 'pgrep -xu "$USER" swaylock >/dev/null && hyprctl dispatch dpms off' \
          resume 'pgrep -xu "$USER" swaylock >/dev/null && hyprctl dispatch dpms on'  \
+    timeout $SS_T 'systemctl suspend' \
+        resume 'hyprctl monitors all | awk '"'"'/Monitor/ {print $2}'"'"' | xargs -I % hyprctl dispatch dmps on %' \
     before-sleep 'swaylock -f' \
     lock 'swaylock -f' \
     unlock 'pkill -xu "$USER" -SIGUSR1 swaylock'
