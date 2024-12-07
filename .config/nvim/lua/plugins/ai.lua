@@ -11,7 +11,6 @@ return {
     },
     -- config = true
     config = function(_, opts)
-      print("I HAVEW RUN")
       require("codecompanion").setup({
         strategies = {
             chat = {
