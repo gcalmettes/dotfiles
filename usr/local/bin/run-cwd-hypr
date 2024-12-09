@@ -1,0 +1,17 @@
+#!/bin/sh
+
+# Query procfs to get the cwd of the process.
+# The script can be used to spawn other applications off of that window,
+# retaining the working directory.
+# e.g.: $mod+Backspace run-cwd alacritty
+
+if FOCUSED=$(hyprctl activewindow | grep -o 'pid: [0-9]*' | cut -d' ' -f2) && [ -n "$FOCUSED" ]; then
+    # cwd of first-level child is usually more useful (e.g. shell proc forked from terminal emulator)
+    # but fallback to the cwd of the focused app if no children procs
+    for pid in $(cat "/proc/$FOCUSED/task"/*/children) $FOCUSED; do
+        if cwd=$(readlink -e "/proc/$pid/cwd") && [ -n "$cwd" ]; then
+            cd "$cwd" && break
+        fi
+    done
+fi
+exec "$@"

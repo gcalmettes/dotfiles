@@ -82,7 +82,7 @@ input type:touchpad {
     # Launch // Terminal // <> Enter ##
     bindsym $mod+Return exec $term
     # Launch // Terminal in directory of currently focused windows, if any // <><Alt> Enter ##
-    bindsym $mod+Alt+Return exec run-cwd $term
+    bindsym $mod+Alt+Return exec run-cwd-sway $term
 
     ## Launch // Browser // <><Shift> Enter ##
     bindsym $mod+Shift+Return exec gtk-launch $(xdg-settings get default-web-browser)
