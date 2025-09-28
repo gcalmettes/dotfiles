@@ -19,6 +19,11 @@ export GOPATH=$HOME/go
 export PATH="$GOPATH/bin:$PATH"
 # For Krew
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
+# For asdf
+# asdf append completions to fpath
+fpath=(${ASDF_DIR}/completions $fpath)
+export ASDF_DATA_DIR="$HOME/.asdf"
+export PATH="$ASDF_DATA_DIR/shims:$PATH"
 
 ###################################
 ### USER PROMPT CONFIGURATION
@@ -85,8 +90,6 @@ export FZF_DEFAULT_COMMAND='fd --type file --follow --hidden --exclude .git'
 autoload -U bashcompinit
 bashcompinit
 
-# asdf append completions to fpath
-fpath=(${ASDF_DIR}/completions $fpath)
 # initialise completions for the current session
 autoload -Uz compinit && compinit
 
@@ -110,11 +113,6 @@ bindkey '^[[Z' reverse-menu-complete
 
 #### Plugins
 
-# load asdf
-. "$HOME/.asdf/asdf.sh"
-# load asdf-direnv
-source "${XDG_CONFIG_HOME:-$HOME/.config}/asdf-direnv/zshrc"
-
 # zsh auto suggestions
 source "/usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
 
@@ -130,6 +128,9 @@ ZSH_HIGHLIGHT_PATTERNS+=('rm -rf*' 'fg=white,bold,bg=red')
 
 # load starship as prompt
 eval "$(starship init zsh)"
+
+# direnv
+eval "$(direnv hook zsh)"
 
 
 ###################################
@@ -153,6 +154,7 @@ alias htop="btm"
 alias du="dust" # cargo install du-dust
 alias cat="bat"
 alias gitlog="git log --oneline --decorate --graph --all"
+alias open="xdg-open"
 
 # custom
 # "nvim open": select file to open with nvim using rofi/dmenu search
@@ -163,10 +165,10 @@ alias sft="search_files_of_type"
 alias spdf="fd --type f -e pdf . $HOME | rofi -keep-right -dmenu -i -p FILES -multi-select | xargs -I {} xdg-open {}"
 #remove the 256-color escapes code in a text
 alias decolor="sed 's/\x1B\[[0-9;]\{1,\}[A-Za-z]//g'"
-# switch kube context using rofi dmenu selector
-alias kswitch="kube_context_switch"
 # remove all conceivable ANSI escape sequences
 # sed 's/\x1B[@A-Z\\\]^_]\|\x1B\[[0-9:;<=>?]*[-!"#$%&'"'"'()*+,.\/]*[][\\@A-Z^_`a-z{|}~]//g'
+# switch kube context using rofi dmenu selector
+alias kswitch="kube_context_switch"
 #
 # alias regex="gawk 'match($0,/'$1'/, ary) {print ary['${2:-'0'}']}'"
 # function regex { gawk 'match($0,/'$1'/, ary) {print ary['${2:-'0'}']}'; }
@@ -242,31 +244,17 @@ cleankube () {
   echo $(kubectl get ns | grep -v NAME | awk '{printf "%s\\n",$1}') | xargs -t -I % sh -c 'kubectl delete pod -n %  $(kubectl get pod -n % |  grep -i -E "$STATUS" | awk '"'"'{print $1}'"'"') || printf "\n***************\n** Namespace % clean\n***************\n\n"'
 }
 
-#### VPN utils
-vpnstart () {
- openvpn3 session-start -c $HOME/.config/openvpn/FRL207_gcalmettes@idmog.openvpn.com.ovpn
-}
-
-vpnstop () {
- sudo pkill openvpn3
-}
-
-vpnlogs () {
- openvpn3 log -c $HOME/.config/openvpn/FRL207_gcalmettes@idmog.openvpn.com.ovpn
-}
-
-#### create python venv using asdf direnv
+#### create python venv
 venv () {
   local python_version
   if [ ! -z $1 ] 
   then
-      python_version=$1
+    python_version=$1
   else
-    python_version=$(asdf current python | awk '{print $2}')
+    python_version=$(asdf current --no-header python | awk '{print $2}')
   fi
- asdf direnv local python $python_version
- echo "layout python" >> .envrc
- direnv allow
+  python_bin="$(asdf where python $python_version)/bin/python"
+  echo "layout python $python_bin" >> .envrc
 }
 
 create_k3d () {
@@ -313,35 +301,6 @@ agent_running() {
 [[ -r ${AGENT_VARS_FILE} ]] && source ${AGENT_VARS_FILE}
 agent_running || start_agent
 [[ -r ${AGENT_VARS_FILE} ]] && source ${AGENT_VARS_FILE}
-
-
-#### k3s/k3d
-# # To start k3s with everything contained in a single folder
-# startk3s () {
-#   # configured to keep all its data in one folder
-#   sudo $HOME/bin/k3s server  \
-#   --data-dir  $HOME/k3s \
-#   --config $HOME/k3s/config.yaml \
-#   --disable traefik \
-#   --write-kubeconfig $HOME/k3s/k3s-local.yaml
-
-# }
-
-# bootstrapk3s () {
-#   # replace cluster name in config
-#   while [[ $(grep -F "default" ~/k3s/k3s-local.yaml) ]] && [[ ! $(grep -F "k3s-local" ~/k3s/k3s-local.yaml) ]]
-#     do
-#       echo "Waiting for the local file to be updated ..."
-#       sed -i 's/default/k3s-local/g' $HOME/k3s/k3s-local.yaml
-#       sleep 1
-#     done
-
-#   echo "Switching context"
-#   kubectl config use-context k3s-local
-
-#   echo "Installing/Updating nginx ingress controller"
-#   helm upgrade nginx nginx-stable/nginx-ingress --namespace ingress --create-namespace --install
-# }
 
 
 # ensures ctrl-e and ctrl-a are end-of-line and beginning-of-line
