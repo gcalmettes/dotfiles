@@ -4,39 +4,70 @@ return {
     dependencies = {
       "nvim-lua/plenary.nvim",
       "nvim-treesitter/nvim-treesitter",
+      -- "ravitemer/mcphub.nvim",
       "hrsh7th/nvim-cmp", -- Optional: For using slash commands and variables in the chat buffer
-      "nvim-telescope/telescope.nvim", -- Optional: For using slash commands
-      { "MeanderingProgrammer/render-markdown.nvim", ft = { "markdown", "codecompanion" } }, -- Optional: For prettier markdown rendering
-      { "stevearc/dressing.nvim", opts = {} }, -- Optional: Improves `vim.ui.select`
+      {
+        "echasnovski/mini.diff",
+        config = function()
+          local diff = require("mini.diff")
+          diff.setup({
+            -- Disabled by default
+            source = diff.gen_source.none(),
+          })
+        end,
+      },
     },
-    -- config = true
     config = function(_, opts)
       require("codecompanion").setup({
         strategies = {
             chat = {
               adapter = "openai",
+              tools = {
+                ["cmd_runner"] = {
+                  opts = {
+                    requires_approval = false,
+                  },
+                },
+                ["insert_edit_into_file"] = {
+                  opts = {
+                    requires_approval = false,
+                  },
+                },
+              },
             },
             inline = {
               adapter = "openai",
             },
           },
         adapters = {
-          openai = function()
-            return require("codecompanion.adapters").extend("openai_compatible", {
-              schema = {
-                model = {
-                  -- default = "llama3.1",
-                  default = "qwen2.5",
+          http = {
+            openai = function()
+              return require("codecompanion.adapters").extend("openai_compatible", {
+                schema = {
+                  model = {
+                    -- default = "llama3.1",
+                    default = "qwen2.5-coder-32b-instruct",
+                  },
                 },
-              },
-              env = {
-                url = "http://localhost:8004", -- optional: default value is ollama url http://127.0.0.1:11434
-                api_key = "1111-11111", -- optional: if your endpoint is authenticated
-                chat_url = "/v1/chat/completions", -- optional: default value, override if different
-              },
-            })
-          end,
+                env = {
+                  url = "https://api.scaleway.ai", -- optional: default value is ollama url http://127.0.0.1:11434
+                  api_key = "cmd:echo $SCW_API_KEY", -- optional: if your endpoint is authenticated
+                  chat_url = "/v1/chat/completions", -- optional: default value, override if different
+                },
+              })
+            end,
+          },
         },
+        -- extensions = {
+        --   mcphub = {
+        --     callback = "mcphub.extensions.codecompanion",
+        --     opts = {
+        --       make_vars = true,
+        --       make_slash_commands = true,
+        --       show_result_in_chat = true
+        --     }
+        --   }
+        -- }
       })
     end
   }

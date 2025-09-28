@@ -7,3 +7,6 @@ require("keymaps")
 require("commands")
 
 require("ui")
+
+
+vim.lsp.enable("pyright")
