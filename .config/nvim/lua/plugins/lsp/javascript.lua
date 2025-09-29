@@ -31,7 +31,7 @@ M.config = {
     root_dir = vim.loop.cwd,
   override_client_setup = function(server_opts)
     opts.server = server_opts or {}
-    require('lspconfig').ts_ls.setup(opts)
+    vim.lsp.enable("ts_ls", opts)
   end,
 }
 

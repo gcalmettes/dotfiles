@@ -108,6 +108,15 @@ vim.api.nvim_create_autocmd('LspAttach', {
   end
 })
 
+
+-- Print which client was started
+vim.api.nvim_create_autocmd('LspAttach', {
+  callback = function(ev)
+    local client = vim.lsp.get_client_by_id(ev.data.client_id)
+    print("Language Server Protocol started:", client.name, "!")
+  end
+})
+
 -------------------------------------------------------------------------------
 -- Go
 -------------------------------------------------------------------------------

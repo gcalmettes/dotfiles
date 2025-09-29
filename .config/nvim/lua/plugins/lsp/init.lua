@@ -1,15 +1,5 @@
-local custom_on_init = function(name)
-  return function()
-    print("Language Server Protocol started:", name, "!")
-  end
-end
-
 local custom_capabilities = function()
-  -- local capabilities = require("cmp_nvim_lsp").default_capabilities(
-  --   vim.lsp.protocol.make_client_capabilities()
-  -- )
   local capabilities = require("cmp_nvim_lsp").default_capabilities()
-  -- capabilities.textDocument.completion.completionItem.snippetSupport = true
   return capabilities
 end
 
@@ -28,23 +18,22 @@ local servers = {
 }
 
 local function setup_with_options()
-  local nvim_lsp = require("lspconfig")
   for name, opts in pairs(servers) do
-    local client = nvim_lsp[name]
+    local cfg = vim.lsp.config[name]
     local server_opts = {
-        cmd = opts.cmd or client.cmd,
-        filetypes = opts.filetypes or client.filetypes,
+        cmd = opts.cmd or cfg.cmd,
+        filetypes = opts.filetypes or cfg.filetypes,
         on_attach = opts.on_attach or nil,
-        on_init = opts.on_init or custom_on_init(name),
-        handlers = opts.handlers or client.handlers,
-        root_dir = opts.root_dir or client.root_dir,
+        on_init = opts.on_init or nil,
+        handlers = opts.handlers or cfg.handlers,
+        root_dir = opts.root_dir or cfg.root_dir,
         capabilities = opts.capabilities or custom_capabilities(),
         settings = opts.settings or {},
     }
     if opts.override_client_setup then
       opts.override_client_setup(server_opts)
     else
-      client.setup(server_opts)
+      vim.lsp.enable(name, server_opts)
     end
   end
 end
