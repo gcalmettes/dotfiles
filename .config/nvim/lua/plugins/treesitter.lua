@@ -39,7 +39,8 @@ return {
         "toml",
         "tsx",
         "typescript",
-        "yaml"
+        "yaml",
+        "svelte"
       },
 
       highlight = { enable = true },
