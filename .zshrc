@@ -139,7 +139,7 @@ eval "$(direnv hook zsh)"
 
 # Use function so local completion works and we can add flags
 eza_with_icons() {
-  eza $1 --icons
+  eza "$@" --icons
 }
 
 # switch programs
