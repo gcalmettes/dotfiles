@@ -39,10 +39,6 @@ return {
           update_cwd  = false,
           ignore_list = {}
         },
-        system_open = {
-          cmd  = nil,
-          args = {}
-        },
         filters = {
           dotfiles = false, -- this option hides files and folders starting with a dot `.`
           custom = {}
